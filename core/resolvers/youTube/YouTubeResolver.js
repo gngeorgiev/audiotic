@@ -1,6 +1,7 @@
 const getYouTubeId = require('get-youtube-id');
 const fetch = require('node-fetch');
 const _ = require('lodash');
+const queryString = require('query-string');
 
 const BaseResolver = require('../BaseResolver');
 const formats = require('./youTubeFormats');
@@ -8,63 +9,52 @@ const formats = require('./youTubeFormats');
 class YouTubeResolver extends BaseResolver {
     constructor() {
         super('YouTube', 'youtube.com');
-        this.infoUrl = 'http://www.youtube.com/get_video_info?video_id=';
     }
 
-    _buildInfoUrl(id) {
-        return `${this.infoUrl}${id}&eurl=https://youtube.googleapis.com/v/${id}&ps=default&gl=US&hl=en`;
-    }
-
-    _infoToJson(infoText) {
-        const res = {};
-        const pars = infoText.split('&');
-        for (const i in pars) {
-            const kv = pars[i].split('=');
-            const k = kv[0];
-            const v = kv[1];
-            res[k] = decodeURIComponent(v);
+    async _getVideoInfo(id) {
+        const infoUrl = `http://youtube.com/get_video_info?video_id=${id}`;
+        const res = await fetch(infoUrl);
+        const infoText = await res.text();
+        const parsedInfo = queryString.parse(infoText);
+        if (!parsedInfo.status) {
+            throw new Error('Invalid video url');
+        } else if (parsedInfo.status === 'fail') {
+            throw new Error(`Invalid video: ${parsedInfo.reason}`);
         }
 
-        return res;
+        return parsedInfo;
     }
 
-    _mapUrls(info) {
-        var tmp = info.url_encoded_fmt_stream_map;
-        if (tmp) {
-            tmp = tmp.split(',');
-            for (const i in tmp) {
-                tmp[i] = this._infoToJson(tmp[i]);
-            }
-            info.formats = tmp;
-        } else {
-            info.formats = info.url_encoded_fmt_stream_map
-        }
-
-        delete info.url_encoded_fmt_stream_map;
-
-        _.forEach(info.formats, f => {
-            f.format = formats[f.itag].container;
+    _parseVideoFormats(info) {
+        const formatsList = info.url_encoded_fmt_stream_map.split(',');
+        return formatsList.map(f => {
+            const format = queryString.parse(f);
+            format.container = formats[format.itag].container;
+            format.signature = format.s;
+            delete format.s;
+            return format;
         });
-
-        return info;
     }
 
     async resolve(url) {
         const id = getYouTubeId(url);
-        const infoUrl = this._buildInfoUrl(id);
         try {
-            const res = await fetch(infoUrl);
-            const infoText = await res.text();
-            const videoInfo = this._mapUrls(this._infoToJson(infoText));
+            const info = await this._getVideoInfo(id);
+            const formats = this._parseVideoFormats(info); 
+
             const video = {
                 id: id,
-                title: videoInfo.title,
-                thumbnail: videoInfo.thumbnail_url,
-                length: videoInfo.length_seconds,
-                url: (_.find(videoInfo.formats, f => f.format === 'webm') || 
-                    _.find(videoInfo.formats, f => f.format === 'mp4') ||
-                    _.find(videoInfo.formats, f => f.format === 'mp3') || 
-                    {url: 'unknown'}).url
+                title: info.title,
+                thumbnail: info.thumbnail_url,
+                length: info.length_seconds,
+                stream: _.find(formats, f => f.container === 'webm') || 
+                    _.find(formats, f => f.container === 'mp4') ||
+                    _.find(formats, f => f.container === 'mp3') || 
+                    {url: 'unknown', signature: 'unknown'},
+                get url() {
+                    return `${this.stream.url}&signature=${this.stream.signature}`;
+                }
+                
             };
 
             return video;
