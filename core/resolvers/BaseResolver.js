@@ -1,5 +1,6 @@
 class BaseResolver {
-    constructor(name, url) {
+    constructor(platformSettings, name, url) {
+        this.platformSettings = platformSettings;
         this.name = name;
         this.url = url;
     }

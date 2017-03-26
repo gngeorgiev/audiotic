@@ -2,6 +2,7 @@
  * http://en.wikipedia.org/wiki/YouTube#Quality_and_formats
  */
 module.exports = {
+
   '5': {
     container: 'flv',
     resolution: '240p',
@@ -611,5 +612,6 @@ module.exports = {
     bitrate: '0.05',
     audioEncoding: 'aac',
     audioBitrate: 24,
-  }
+  },
+
 };

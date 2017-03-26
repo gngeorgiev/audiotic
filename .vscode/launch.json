@@ -1,24 +1,13 @@
 {
     "version": "0.2.0",
-    "configurations": [
-        {
+    "configurations": [{
             "type": "node",
-            "request": "launch",
-            "name": "Ava Tests",
-            "cwd": "${workspaceRoot}",
-            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/ava",
-            "runtimeArgs": [
-                "--verbose",
-                "${workspaceRoot}/tests/core/resolvers/youTube/YouTubeResolver.test.js"
-            ],
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "type": "node2",
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceRoot}/test.js",
-            "cwd": "${workspaceRoot}"
+            "runtimeArgs": [
+                "--trace-warnings"
+            ]
         }
     ]
 }

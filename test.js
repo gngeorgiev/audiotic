@@ -1,13 +1,10 @@
-const YouTubeResolver =  require('./core/resolvers/youTube/YouTubeResolver');
-const dl = require('ytdl-core');
+const audiotic = require('./core/audiotic-node');
 
-const resolver = new YouTubeResolver();
-
-(async function test() {
-    dl.getInfo('https://www.youtube.com/watch?v=1hquWtswX88')
-
-    const video = await resolver.resolve('https://www.youtube.com/watch?v=1hquWtswX88');
-    console.log(video);
-})();
-
-
+(async function() {
+    try {
+        const video = await audiotic.YouTube.resolve('https://www.youtube.com/watch?v=1hquWtswX88')
+        console.log(video);
+    } catch (ex) {
+        console.error(ex);
+    }
+}());
