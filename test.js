@@ -2,7 +2,7 @@ const audiotic = require('./core/audiotic-node');
 
 (async function() {
     try {
-        const video = await audiotic.YouTube.resolve('https://www.youtube.com/watch?v=1hquWtswX88')
+        const video = await audiotic.YouTube.search('ariana grande')
         console.log(video);
     } catch (ex) {
         console.error(ex);

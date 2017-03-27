@@ -5,12 +5,14 @@
   "repository": {},
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.18.2"
+    "ava": "^0.18.2",
+    "request": "^2.81.0"
   },
   "scripts": {
-    "test": "ava tests"
+    "test": "ava tests/core"
   },
   "dependencies": {
+    "cheerio": "^0.22.0",
     "get-youtube-id": "^1.0.0",
     "html-entities": "^1.2.0",
     "lodash": "^4.17.4",

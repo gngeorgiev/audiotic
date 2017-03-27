@@ -23,7 +23,7 @@ exports.getTokens = async function (html5playerfile) {
     return cachedTokens;
   }
 
-  const response = await global.fetch(html5playerfile);
+  const response = await fetch(html5playerfile);
   const body = await response.text();
   var tokens = exports.extractActions(body);
   if (key && (!tokens || !tokens.length)) {

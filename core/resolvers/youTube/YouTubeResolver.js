@@ -2,6 +2,7 @@ const getYouTubeId = require('get-youtube-id');
 const _ = require('lodash');
 const queryString = require('query-string');
 const url = require('url');
+const cheerio = require('cheerio');
 
 const BaseResolver = require('../BaseResolver');
 const formats = require('./formats');
@@ -19,6 +20,9 @@ const KEYS_TO_SPLIT = [
     'fexp',
     'watermark'
 ];
+const SUGGEST_URL = 'http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q='
+const SEARCH_URL = 'https://www.youtube.com/results?search_query=';
+const VIDEO_CLASS = '.yt-lockup-video';
 
 class YouTubeResolver extends BaseResolver {
     constructor(platformSettings) {
@@ -27,7 +31,7 @@ class YouTubeResolver extends BaseResolver {
 
     async _getVideoInfo(id) {
         const videoUrl = `${VIDEO_URL}${id}`;
-        const videoResponse = await global.fetch(videoUrl);
+        const videoResponse = await fetch(videoUrl);
         const videoBody = await videoResponse.text();
 
         const additional = {
@@ -56,7 +60,7 @@ class YouTubeResolver extends BaseResolver {
         }
 
         const embedUrl = `${EMBED_URL}${id}`;
-        const embedResponse = await global.fetch(embedUrl);
+        const embedResponse = await fetch(embedUrl);
         const embedBody = await embedResponse.text();
         let config = util.between(embedBody, 't.setConfig({\'PLAYER_CONFIG\': ', '},\'');
         if (!config) {
@@ -98,7 +102,7 @@ class YouTubeResolver extends BaseResolver {
             },
         });
 
-        const infoResponse = await global.fetch(infoUrl);
+        const infoResponse = await fetch(infoUrl);
         const infoBody = await infoResponse.text();
         let info = queryString.parse(infoBody);
 
@@ -147,38 +151,59 @@ class YouTubeResolver extends BaseResolver {
 
     async resolve(url) {
         const id = getYouTubeId(url);
-        try {
-            const info = await this._getVideoInfo(id);
+        const info = await this._getVideoInfo(id);
 
-            const video = {
-                id: id,
-                title: info.title,
-                thumbnail: info.thumbnail_url,
-                length: info.length_seconds,
-                stream: _.find(info.formats, f => this._filterFormat(f, 'webm')) ||
-                    _.find(info.formats, f => this._filterFormat(f, 'mp4')) ||
-                    _.find(info.formats, f => this._filterFormat(f, 'mp3')) || {
-                        url: 'unknown',
-                        signature: 'unknown'
-                    },
-                get url() {
-                    return this.stream.url;
+        const video = {
+            id: id,
+            title: info.title,
+            thumbnail: info.thumbnail_url,
+            length: info.length_seconds,
+            stream: _.find(info.formats, f => this._filterFormat(f, 'webm')) ||
+                _.find(info.formats, f => this._filterFormat(f, 'mp4')) ||
+                _.find(info.formats, f => this._filterFormat(f, 'mp3')) || {
+                    url: 'unknown',
+                    signature: 'unknown'
                 },
-                related: info.relatedVideos.map(v => {
-                    return {
-                        id: v.id,
-                        title: v.title,
-                        length: v.length_seconds,
-                        thumbnail: v.iurlhq
-                    }
-                })
+            get url() {
+                return this.stream.url;
+            },
+            related: info.relatedVideos.map(v => {
+                return {
+                    id: v.id,
+                    title: v.title,
+                    length: v.length_seconds,
+                    thumbnail: v.iurlhq
+                }
+            })
 
-            };
+        };
 
-            return video;
-        } catch (ex) {
-            throw ex;
-        }
+        return video;
+    }
+
+    async suggest(substring) {
+        const response = await fetch(`${SUGGEST_URL}${encodeURIComponent(substring)}`);
+        const data = await response.json();
+        return data[1];
+    }
+
+    async search(substring) {
+        const url = `${SEARCH_URL}${encodeURIComponent(substring)}`;
+        const response = await fetch(url);
+        const $ = cheerio.load(await response.text());
+        const videoElements = $(VIDEO_CLASS);
+        const getIdSelector = id => `${VIDEO_CLASS}[data-context-item-id=${id}]`;
+
+        return Array.from(videoElements).map((videoEl) => {
+            const id = videoEl.attribs['data-context-item-id'];
+            const idSelector = getIdSelector(id);
+
+            return {
+                id: id,
+                thumbnail: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+                title: $(idSelector).find('.yt-lockup-title > a').attr('title')
+            }
+        });
     }
 }
 

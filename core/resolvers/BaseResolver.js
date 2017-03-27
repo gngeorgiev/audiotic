@@ -8,6 +8,10 @@ class BaseResolver {
     resolve(url) {
         throw new Error('Override!');
     }
+
+    suggest(substring) {
+        throw new Error('Override!');
+    }
 }
 
 module.exports = BaseResolver;
