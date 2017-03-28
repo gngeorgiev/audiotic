@@ -11,7 +11,7 @@ function extendGlobalScope(globals) {
     });
 }
 
-function createLib() {
+function createLib(platformSettings) {
     const audiotic = {};
     Object.keys(resolvers).forEach(r => audiotic[r] = new resolvers[r](platformSettings));
     return audiotic;
@@ -20,5 +20,5 @@ function createLib() {
 module.exports = function(globals, platformSettings = {}) {
     extendGlobalScope(globals);
     
-    return createLib();
+    return createLib(platformSettings);
 }

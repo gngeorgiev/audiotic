@@ -23,6 +23,7 @@ const KEYS_TO_SPLIT = [
 const SUGGEST_URL = 'http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q='
 const SEARCH_URL = 'https://www.youtube.com/results?search_query=';
 const VIDEO_CLASS = '.yt-lockup-video';
+const VIDEO_ID_LENGTH = 11;
 
 class YouTubeResolver extends BaseResolver {
     constructor(platformSettings) {
@@ -149,10 +150,15 @@ class YouTubeResolver extends BaseResolver {
         return f.container === container && f.url;
     }
 
-    async resolve(url) {
-        const id = getYouTubeId(url);
-        const info = await this._getVideoInfo(id);
+    async resolve(urlOrId) {
+        let id;
+        if (urlOrId.length === VIDEO_ID_LENGTH) {
+            id = urlOrId;
+        } else {
+            id = getYouTubeId(urlOrId);
+        }
 
+        const info = await this._getVideoInfo(id);
         const video = {
             id: id,
             title: info.title,

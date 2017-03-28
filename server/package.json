@@ -1,0 +1,14 @@
+{
+  "name": "audiotic-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {},
+  "license": "MIT",
+  "dependencies": {
+     "koa": "^2.2.0",
+     "koa-route": "^3.2.0"
+  },
+  "devDependencies": {
+    "request": "^2.81.0" 
+  }
+}
