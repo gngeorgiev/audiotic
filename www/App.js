@@ -3,7 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { YouTube } from 'audiotic';
 
 export default class App extends React.Component {
-  state = {};
+  state = {
+    videos: []
+  };
 
   async componentDidMount() {
     const videos = await YouTube.search('ariana grande');
@@ -16,7 +18,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.state.videos[0]}</Text>
+        {this.state.videos.map((v, i) => <Text key={i}>{v.title}</Text>)}
       </View>
     );
   }
