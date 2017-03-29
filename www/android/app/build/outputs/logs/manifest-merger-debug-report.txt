@@ -26,6 +26,7 @@ MERGED from [com.facebook.react:react-native:0.42.3] /home/local/TELERIK/gngeorg
 		ADDED from /home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/src/main/AndroidManifest.xml:7:22-75
 uses-sdk
 ADDED from /home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/src/main/AndroidManifest.xml:9:5-11:41
+MERGED from [audiotic:react-native-vector-icons:unspecified] /home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/audiotic/react-native-vector-icons/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.42.3] /home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:23.0.1] /home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:recyclerview-v7:23.4.0] /home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/AndroidManifest.xml:20:5-43

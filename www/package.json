@@ -18,6 +18,8 @@
   "dependencies": {
     "audiotic": "file:../core",
     "react": "~15.4.0",
-    "react-native": "0.42.3"
+    "react-native": "0.42.3",
+    "react-native-material-ui": "^1.8.0",
+    "react-native-vector-icons": "^4.0.0"
   }
 }

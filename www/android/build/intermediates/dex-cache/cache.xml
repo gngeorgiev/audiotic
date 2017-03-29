@@ -84,6 +84,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/audiotic/react-native-vector-icons/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="1bbdb3781b520448b570f6a85b579be4df20a29a">
+        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/audiotic-react-native-vector-icons-unspecified_849545eba0c766507777299edc11e3f281fcc823.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
