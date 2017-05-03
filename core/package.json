@@ -1,6 +1,6 @@
 {
-  "name": "audiotic",
-  "version": "0.0.7",
+  "name": "audiotic-core",
+  "version": "0.0.8",
   "repository": {},
   "license": "MIT",
   "main": "audiotic-node.js",
@@ -58,7 +58,7 @@
   },
   "devDependencies": {
     "ava": "^0.18.2",
-    "request": "^2.81.0" 
+    "request": "^2.81.0"
   },
   "scripts": {
     "test": "ava tests/core",

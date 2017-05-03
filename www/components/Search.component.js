@@ -1,38 +1,53 @@
 import React from 'react';
-import { ListView } from 'react-native';
-import { YouTube } from 'audiotic';
+import { ScrollView, View } from 'react-native';
+import { YouTube } from 'audiotic-core';
+import { VideoListItem } from './VideoListItem';
+import { List, SearchBar } from 'react-native-elements';
 
-class SearchComponent extends React.Component {
+export class SearchComponent extends React.Component {
     constructor() {
         super();
 
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            ds,
-            dataSource: ds.cloneWithRows([]),
+            searching: false,
+            text: '',
+            dataSource: []
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!this.props.active) {
-            return;
-        }
-
-        this.search(nextProps.searchString);
-    }
-
     async search(str) {
-        const videos = await YouTube.search('ariana grande');
+        this.setState({searching: true});
+
+        const videos = await YouTube.search(str);
+        videos.forEach(v => v.provider = 'YouTube'); //TODO:
+
         this.setState({
-            dataSource: this.state.ds.cloneWithRows(videos)
+            searching: false,
+            dataSource: videos
         });
     }
 
     render() {
         return (
+            <View>
+                <SearchBar
+                    placeholder='e.g. Martin Garrix'
+                    lightTheme={true}
+                    showLoadingIcon={this.state.searching}
+                    onChangeText={text => this.setState({text})}
+                    onSubmitEditing={() => this.search(this.state.text)}
+                />
+                <ScrollView>
+                    <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+                        {
+                            this.state.dataSource.map(video => (
+                                <VideoListItem key={video.id} video={video} />
+                            ))
+                        }
+                    </List>
+                </ScrollView>
+            </View>
             
         )
     }
 }
-
-export default SearchComponent;

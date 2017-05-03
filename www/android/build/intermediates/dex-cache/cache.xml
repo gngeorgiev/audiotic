@@ -3,228 +3,201 @@
 
     <item
         is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/0.11.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="1137942adeb03984c1311b662363dd38fc238fd3">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-0.11.0_c7c1199b2686585686b44a24c1e4305a97082bf9.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.4.0_d8e1b1b9f2b7b80d3eb279364af63f8aa9dd354f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/0.11.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="d31aadf33187c37a7cd63dc1b769f8c6e33f78c3">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-0.11.0_82345f5fc0d57833185f0903022cf407e04ff597.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/okhttp-3.4.1_554f4c0b3b671438fffb99c138294cfb7c3cbf59.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/0.11.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="98786c1770b531b9194fb6448b2a2692c64074b6">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-0.11.0_566011f77ea196e505f222e7987c579cf52ebb39.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.soloader-soloader-0.1.0_ecec990e9d3082f03365cfb1ec9c901eb30251a2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/0.11.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="2b8a01ad9da5d26d0067894c22e87597bca2c500">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-0.11.0_4c148fbf64088bf2dda3b92be5564c40a162aed5.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.4.1/63994437f62bc861bc20c605d12962f7246116d1/okhttp-urlconnection-3.4.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="63994437f62bc861bc20c605d12962f7246116d1">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.4.1_062d16b6f7e3db35f19e417531435385ff3fbcb4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
+        jar="/home/gngeorgiev@bedford.progress.com/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="f162442a19fff13995fbd51ba414d9ee05579080">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/staticlayout-proxy-1.0_6a338336f73c78ffe5aa73473f4beecb0cfddc2f.jar" />
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/staticlayout-proxy-1.0_f9c57f1e41485b62136c412983749f82fe1a5448.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/audiotic/react-native-vector-icons/unspecified/jars/classes.jar"
+        jar="/home/gngeorgiev@bedford.progress.com/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.4.1/63994437f62bc861bc20c605d12962f7246116d1/okhttp-urlconnection-3.4.1.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
-        sha1="1bbdb3781b520448b570f6a85b579be4df20a29a">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/audiotic-react-native-vector-icons-unspecified_849545eba0c766507777299edc11e3f281fcc823.jar" />
+        sha1="63994437f62bc861bc20c605d12962f7246116d1">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.4.1_e4b99b9d0df65536fca07540f54686f18b5a20ee.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
-        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.4.0_2876303228a2db8f234f5e22bf4276e58fadecd8.jar" />
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1_cbcab101fd28d726015a70d1aa29cd7e6dc65882.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
-        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/okio-1.9.0_b386db5abda2208a71998a79a3af77aa5ce32aeb.jar" />
+        sha1="af9665a44df26b4098e24c934c1109507845ef5e">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.44.0_92df47169aaa2dc09600a8c317e400959cc7aa0f.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/mnt/backup/AndroidSDK/extras/android/m2repository/com/android/support/support-annotations/23.4.0/support-annotations-23.4.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/support-annotations-23.4.0_ef1fbbc1a2c1bc8e88f066ac3508230dd698f2aa.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.0.1_17ff9eb6e4fa0a15226d517c3143719231bf74ba.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_c094059e8faa8d8d722a843531bb2095c50263a1.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-ws/3.4.1/8ace66ef7002d98f633377c9e67daeeb196d8c3b/okhttp-ws-3.4.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/okhttp-ws-3.4.1_d5d9138108f1558080c66a48b8e3b2b17f6cf867.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/0.11.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="3341b66c54367e777a0647e2db96c045329bfeab">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-0.11.0_6cdc5a1b159d95e2bedb2089b9cd1e54d978b5c7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/jars/libs/infer-annotations-1.5.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="dcac634e137395f79693ec760f081a86eb2bd84e">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/infer-annotations-1.5_d013972cbbd268947da9ddb0e5f25039ca912773.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/0.11.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="ca63c521b5745ae9a09629d7ca67ff6bc2a967fe">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-0.11.0_4617f890999546d2d7d83eb41f5006811ee579c9.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_ae4765d337dd3c343336f2ad28e002614f2ea5a0.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="962b06c207e808c0557ffd6163ac584025a96021">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.42.3_4cd300becdda9c352abdb1b5c1dd851c872e205b.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/library-2.4.0_26f1c1cb83fb16971b6011e204ec52335c24143a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_b19c3ec255ec7397950179cef2f0333d449eeb13.jar" />
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_af2fb5fbfa3d4e95f3818c33d891307c56b4af93.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
-        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/internal_impl-23.4.0_d15793433dcea816bd3160e06ab639fd4effbd88.jar" />
+        sha1="d9c4402c3057225d80cbbbec52154e7a25b0ebdf">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-1.0.1_16b0657a1328a9e41b88c26b1738eb8bf0c18b6d.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/home/local/TELERIK/gngeorgiev/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.0.1_5c7a1f33c56a78b76fa5e404ba8f00dce9e5f169.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1_08e57e450ecad6f4eb3749f695eeb32f58276173.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.0.1_0127581b8beeaeaddd447cb9aedd29c3f7912831.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="cf836a435a496eb22ff2aa69aa1e619462549f81">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-1.0.1_ff47caf70046c0df01bd14def08ee3cbb7d88366.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.0/jars/libs/infer-annotations-1.5.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="dcac634e137395f79693ec760f081a86eb2bd84e">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/infer-annotations-1.5_b551ea569b46d2592a1fa6b07c308526262e6436.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="6975da39a7040257bd51d21a231b76c915872d38">
-        <dex dex="/home/local/TELERIK/gngeorgiev/stuff/audiotic/www/android/app/build/intermediates/pre-dexed/debug/javax.inject-1_ca676a0a44b86d35ffa46da911ea7b1a736ee539.jar" />
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/javax.inject-1_c07104da54c77e129c3baca62cc0a49acfc5ed30.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_83ea87451f7e7d302eff0f3351e4ac9484e45428.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.0.1_307ef824d8495aec5069c460820e667d36d667e2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/okhttp-3.4.1_3cb6b5501496432e51a0c9e6e3fe39297a03872c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="ba9b39366b723ccff6359d1117332968e98a4aca">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-1.0.1_e647d68666055b7bea042aadd799c30cf3c8b42f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/okio-1.9.0_822d9a83c53f86a06dd9f8c1385c352c56cadc44.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_cc72b0909df3b9723fafb33e7bcdee3e49d55669.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="5a61f17cd72e20aa4323cbf5f909b7c609619275">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-1.0.1_37d604126792f2ca80536abc8197846a74f483aa.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-ws/3.4.1/8ace66ef7002d98f633377c9e67daeeb196d8c3b/okhttp-ws-3.4.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/okhttp-ws-3.4.1_b38f69fe475bcaa0d5caf80e562faae670b473d5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2668e49e4e31c7d451b76a36009b902bf44e0d70">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.0.1_f9bec4700d0f6c840d22c06a20fe6ab6a796caa0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/pre-dexed/debug/com.facebook.soloader-soloader-0.1.0_2709c096a1f8a27691e593b9639c6fab628195d5.jar" />
     </item>
 
 </items>
