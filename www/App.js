@@ -21,9 +21,9 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <PlayerComponent style={{height: 300}}/>
+        <PlayerComponent/>
 
-        <View style={{height:300}}>
+        <View style={{flex: 2}}>
           <Tabs>
             <Tab
               title='Search'
@@ -76,11 +76,3 @@ const styles = StyleSheet.create({
     flex: 0.33
   }
 });
-
-const uiTheme = {
-  toolbar: {
-    container: {
-      height: 50
-    }
-  }
-};

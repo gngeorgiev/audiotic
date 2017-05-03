@@ -30,14 +30,14 @@ export class SearchComponent extends React.Component {
     render() {
         return (
             <View>
-                <SearchBar
-                    placeholder='e.g. Martin Garrix'
-                    lightTheme={true}
-                    showLoadingIcon={this.state.searching}
-                    onChangeText={text => this.setState({text})}
-                    onSubmitEditing={() => this.search(this.state.text)}
-                />
                 <ScrollView>
+                    <SearchBar
+                        placeholder='e.g. Martin Garrix'
+                        lightTheme={true}
+                        showLoadingIcon={this.state.searching}
+                        onChangeText={text => this.setState({text})}
+                        onSubmitEditing={() => this.search(this.state.text)}
+                    />
                     <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
                         {
                             this.state.dataSource.map(video => (
