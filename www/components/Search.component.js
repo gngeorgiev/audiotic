@@ -40,8 +40,8 @@ export class SearchComponent extends React.Component {
                     />
                     <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
                         {
-                            this.state.dataSource.map(video => (
-                                <VideoListItem key={video.id} video={video} />
+                            this.state.dataSource.map(track => (
+                                <VideoListItem key={track.id} track={track} />
                             ))
                         }
                     </List>

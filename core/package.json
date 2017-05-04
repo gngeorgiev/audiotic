@@ -1,6 +1,6 @@
 {
   "name": "audiotic-core",
-  "version": "0.0.9",
+  "version": "0.0.16",
   "repository": {},
   "license": "MIT",
   "main": "audiotic-node.js",

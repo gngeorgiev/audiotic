@@ -4,6 +4,7 @@ import { Tabs, Tab, Icon } from 'react-native-elements'
 
 import { SearchComponent } from './components/Search.component';
 import { PlayerComponent } from './components/Player.component';
+import { AudioPlayer } from './modules/AudioPlayer';
 
 const states = {
   search: 'search',
@@ -17,6 +18,10 @@ export default class App extends React.Component {
   };
 
   searchText = '';
+
+  async componentWillUnmount() {
+    await AudioPlayer.stop();
+  }
 
   render() {
     return (

@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/www/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi/ic_launcher.png",
+        "source": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/www/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
         "merged": "/home/gngeorgiev/projects/audiotic/www/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi/ic_launcher.png",
         "source": "/home/gngeorgiev/projects/audiotic/www/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
     },

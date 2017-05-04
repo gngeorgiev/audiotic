@@ -1,46 +1,63 @@
 import {NativeModules} from 'react-native';
+import EventEmitter from 'EventEmitter';
 
 const AudioPlayerNative = NativeModules.AudioPlayer;
 
-export const AudioPlayer = {
-    _current: null,
+let _current = null;
+let _playing = false;
 
+class AudioPlayerModule extends EventEmitter {
     get current() {
-        return this._current;
-    },
+        return _current;
+    }
+
+    get playing() {
+        return _playing;
+    }
 
     currentPosition() {
         return AudioPlayerNative.getCurrentPosition();
-    },
+    }
 
-    resume() {
-        return AudioPlayerNative.play('');
-    },
+    async resume() {
+        _playing = true;
+        this.emit('resume');
+        await AudioPlayerNative.play('', this.current.offline);
+    }
 
-    pause() {
-        return AudioPlayerNative.pause();
-    },
+    async pause() {
+        _playing = false;
+        this.emit('pause');
+        await AudioPlayerNative.pause();
+    }
 
-    stop() {
-        return AudioPlayerNative.stop();
-    },
+    async stop() {
+        _playing = false;
+        this.emit('stop');
+        await AudioPlayerNative.stop();
+    }
 
-    play(track, offline) {
-        if (typeof offline !== 'boolean') {
-            offline = false;
-        }
+    async play(track, offline) {
+        _current = track;
+        _current.offline = !!offline;
 
-        this._current = track;
-        this._current.offline = offline;
+        _playing = true;
+        this.emit('play', track);
+        await AudioPlayerNative.play(track.url, !!offline);
+    }
 
-        return AudioPlayerNative.play(track.url, offline);
-    },
+    async seek(position) {
+        this.emit('seek', position);
+        await AudioPlayerNative.seek(position);
+    }
 
     download({streamUrl, title, id, provider, thumbnail}) {
         return AudioPlayerNative.saveToFile(streamUrl, title, id, provider, thumbnail);
-    },
+    }
 
     getDownloadsFolder() {
         return AudioPlayerNative.getDownloadsFolderPath();
-    },
-};
+    }
+}
+
+export const AudioPlayer = new AudioPlayerModule();

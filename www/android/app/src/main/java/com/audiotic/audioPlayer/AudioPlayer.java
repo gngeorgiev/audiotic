@@ -274,4 +274,14 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
             this.handleError(e, promise);
         }
     }
+
+    @ReactMethod
+    public void seek(int position, Promise promise) {
+        try {
+            this.player.seekTo(position);
+            promise.resolve(null);
+        } catch (Exception e) {
+            this.handleError(e, promise);
+        }
+    }
 }

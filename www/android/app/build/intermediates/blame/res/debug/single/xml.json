@@ -6,5 +6,9 @@
     {
         "merged": "/home/gngeorgiev/projects/audiotic/www/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
         "source": "/home/gngeorgiev/projects/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.0/res/xml/preferences.xml"
+    },
+    {
+        "merged": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/www/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
+        "source": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.0/res/xml/preferences.xml"
     }
 ]

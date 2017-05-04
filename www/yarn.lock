@@ -206,7 +206,7 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
 "audiotic-core@file:../core":
-  version "0.0.8"
+  version "0.0.11"
   dependencies:
     assert "^1.4.1"
     browserify-zlib "^0.1.4"
@@ -3471,6 +3471,12 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@^15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
+
 prr@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/prr/-/prr-0.0.0.tgz#1a84b85908325501411853d0081ee3fa86e2926a"
@@ -3556,11 +3562,15 @@ react-deep-force-update@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
 
 react-devtools-core@^2.0.8:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-2.1.5.tgz#cc36c514d20418d698d5e4780aa744e6d11aaa9a"
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-2.1.7.tgz#7ec9521fcf846c345830125132596f22fdbaaee6"
   dependencies:
     shell-quote "^1.6.1"
     ws "^2.0.3"
+
+react-native-circular-action-menu@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-circular-action-menu/-/react-native-circular-action-menu-0.4.0.tgz#ae182b31323ea3e943037fda30831ee56cfa30da"
 
 react-native-crypto@^2.0.1:
   version "2.0.1"
@@ -3582,6 +3592,10 @@ react-native-elements@^0.11.2:
   dependencies:
     react-native-side-menu "^0.20.1"
     react-native-tab-navigator "^0.3.3"
+
+react-native-eventemitter@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-eventemitter/-/react-native-eventemitter-0.0.1.tgz#c9250a1ae2c61a44fe731ffe1463f506294b80be"
 
 "react-native-http@github:tradle/react-native-http#834492d":
   version "1.0.0"
@@ -3647,10 +3661,11 @@ react-native-udp@^1.2.9:
     util "^0.10.3"
 
 react-native-vector-icons@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.0.1.tgz#39c05d2e775deeb98d5afdbda5dcf67965ff674f"
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.1.0.tgz#816054e85ce7d0a68957b2a4433d2daea91fd821"
   dependencies:
     lodash "^4.0.0"
+    prop-types "^15.5.8"
     yargs "^6.3.0"
 
 react-native@0.44.0:
@@ -4542,13 +4557,13 @@ whatwg-encoding@^1.0.1:
   dependencies:
     iconv-lite "0.4.13"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^1.0.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-1.1.1.tgz#ac3c9d39f320c6dce5339969d054ef43dd333319"
-
-whatwg-fetch@^2.0.3:
+whatwg-fetch@>=0.10.0, whatwg-fetch@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
+
+whatwg-fetch@^1.0.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-1.1.1.tgz#ac3c9d39f320c6dce5339969d054ef43dd333319"
 
 whatwg-url@^4.3.0:
   version "4.7.1"

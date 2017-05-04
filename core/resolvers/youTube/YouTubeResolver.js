@@ -147,7 +147,11 @@ class YouTubeResolver extends BaseResolver {
     }
 
     _filterFormat(f, container) {
-        return f.container === container && f.url;
+        return f.container === container && f.url && !f.resolution;
+    }
+
+    _getThumbnail(id) {
+        return `http://img.youtube.com/vi/${id}/0.jpg`;
     }
 
     async resolve(urlOrId) {
@@ -162,7 +166,7 @@ class YouTubeResolver extends BaseResolver {
         const video = {
             id: id,
             title: info.title,
-            thumbnail: info.thumbnail_url,
+            thumbnail: this._getThumbnail(id),
             length: info.length_seconds,
             stream: _.find(info.formats, f => this._filterFormat(f, 'webm')) ||
                 _.find(info.formats, f => this._filterFormat(f, 'mp4')) ||
@@ -178,7 +182,7 @@ class YouTubeResolver extends BaseResolver {
                     id: v.id,
                     title: v.title,
                     length: v.length_seconds,
-                    thumbnail: v.iurlhq
+                    thumbnail: this._getThumbnail(v.id)
                 }
             })
 
@@ -206,7 +210,7 @@ class YouTubeResolver extends BaseResolver {
 
             return {
                 id: id,
-                thumbnail: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+                thumbnail: this._getThumbnail(id),
                 title: $(idSelector).find('.yt-lockup-title > a').attr('title')
             }
         });
