@@ -48,12 +48,12 @@
         "source": "/home/gngeorgiev/projects/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/anim/abc_popup_enter.xml"
     },
     {
-        "merged": "/home/gngeorgiev/projects/audiotic/www/android/app/build/intermediates/res/merged/debug/anim/abc_popup_exit.xml",
-        "source": "/home/gngeorgiev/projects/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/anim/abc_popup_exit.xml"
-    },
-    {
         "merged": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/www/android/app/build/intermediates/res/merged/debug/anim/abc_shrink_fade_out_from_bottom.xml",
         "source": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/home/gngeorgiev/projects/audiotic/www/android/app/build/intermediates/res/merged/debug/anim/abc_popup_exit.xml",
+        "source": "/home/gngeorgiev/projects/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/anim/abc_popup_exit.xml"
     },
     {
         "merged": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/res/merged/debug/anim/abc_grow_fade_in_from_bottom.xml",

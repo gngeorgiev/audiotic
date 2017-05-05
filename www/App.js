@@ -4,6 +4,7 @@ import { Tabs, Tab, Icon } from 'react-native-elements'
 
 import { SearchComponent } from './components/Search.component';
 import { PlayerComponent } from './components/Player.component';
+import { FullScreenPlayerComponent } from './components/FullScreenPlayer.component';
 import { AudioPlayer } from './modules/AudioPlayer';
 
 const states = {
@@ -14,7 +15,8 @@ const states = {
 
 export default class App extends React.Component {
   state = {
-    screen: states.search
+    screen: states.search,
+    showFullScreenPlayer: false
   };
 
   searchText = '';
@@ -24,9 +26,14 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { showFullScreenPlayer } = this.state;
+
     return (
+      showFullScreenPlayer ? 
+        <FullScreenPlayerComponent onBackPress={() => this.setState({showFullScreenPlayer: false})} /> :
+
       <View style={styles.container}>
-        <PlayerComponent/>
+        <PlayerComponent onPress={() => this.setState({showFullScreenPlayer: true})} />
 
         <View style={{flex: 2}}>
           <Tabs>
