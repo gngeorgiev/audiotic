@@ -3,3 +3,5 @@ node_modules
 www/node_modules
 server/node_modules
 core/node_modules
+www/android/app/build/**
+www/android/build/**

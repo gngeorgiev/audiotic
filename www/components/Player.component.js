@@ -57,7 +57,12 @@ export class PlayerComponent extends React.Component {
             return;
         }
 
-        const nextTrack = await YouTube.resolve(current.related[0].id);
+        const nextTrackUnresolved = current.related.find(t => !!t.id);
+        if (!nextTrackUnresolved) {
+            return;
+        }
+
+        const nextTrack = await YouTube.resolve(nextTrackUnresolved.id);
         await AudioPlayer.play(nextTrack);
     }
 
@@ -144,8 +149,7 @@ const styles = {
         flex: 1,
     },
     progressContainer: {
-        margin: -18,
-        padding: -15
+        marginBottom: -18
     },
     progress: {
         margin: 0,
