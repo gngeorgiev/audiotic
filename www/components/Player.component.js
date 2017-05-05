@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, Text, TouchableNativeFeedback, Keyboard } from 'react-native';
 import { Slider, Button, Icon } from 'react-native-elements';
 import ActionButton from 'react-native-circular-action-menu';
+import { YouTube } from 'audiotic-core';
 
 import { AudioPlayer } from '../modules/AudioPlayer';
 
@@ -50,6 +51,16 @@ export class PlayerComponent extends React.Component {
         this.setState({position});
     }
 
+    async playNextTrack() {
+        const { current } = AudioPlayer;
+        if (!current.related.length) {
+            return;
+        }
+
+        const nextTrack = await YouTube.resolve(current.related[0].id);
+        await AudioPlayer.play(nextTrack);
+    }
+
     componentWillMount() {
         this._updateTrackInterval = setInterval(async () => {
             const position = await AudioPlayer.currentPosition() / 1000;
@@ -61,6 +72,7 @@ export class PlayerComponent extends React.Component {
         this._trackPlayedListener = AudioPlayer.addListener('play', track => this.onTrackPlayed(track));
         this._keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this.setState({hide: true}));
         this._keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this.setState({hide: false}));
+        this._trackEndListener = AudioPlayer.addListener('end', () => this.playNextTrack());
     }
 
     componentWillUnmount() {
@@ -69,6 +81,7 @@ export class PlayerComponent extends React.Component {
         this._trackPlayedListener.remove();
         this._keyboardDidHideListener.remove();
         this._keyboardDidShowListener.remove();
+        this._trackEndListener.remove();
     }
 
     render() {

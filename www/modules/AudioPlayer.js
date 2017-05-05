@@ -1,4 +1,4 @@
-import {NativeModules} from 'react-native';
+import {NativeModules, DeviceEventEmitter} from 'react-native';
 import EventEmitter from 'EventEmitter';
 
 const AudioPlayerNative = NativeModules.AudioPlayer;
@@ -7,6 +7,11 @@ let _current = null;
 let _playing = false;
 
 class AudioPlayerModule extends EventEmitter {
+    constructor() {
+        super();
+        DeviceEventEmitter.addListener('OnCompleted', () => this.emit('end'));
+    }
+    
     get current() {
         return _current;
     }
