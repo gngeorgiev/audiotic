@@ -59,14 +59,18 @@ class AudioPlayerModule extends EventEmitter {
     }
 
     async playNextTrack(resolve) {
-        const nextTrack = await resolve(this.current.next.id);
+        const nextTrack = this.current.next;        
+        if (!nextTrack) {
+            return;
+        }
+
         nextTrack.previous = this.current;
         this.emit('next', nextTrack);
         await this.play(nextTrack);
     }
 
     async playPreviousTrack(resolve) {
-        const previousTrack = await resolve(this.current.previous.id);
+        const previousTrack = this.current.previous;
         this.emit('previous', previousTrack);
         await this.play(previousTrack);
     }
@@ -101,25 +105,29 @@ class AudioPlayerModule extends EventEmitter {
         await AudioPlayerNative.stop();
     }
 
+    async _resolveNextTrack(track, resolve) {
+        if (!track.related.length || track.next) {
+            return;
+        }
+
+        // const nextTrackId = track.related
+        //     .filter(t => !!t.id)
+        //     .find(t => track.previous && t.id !== track.previous.id).id;
+
+        const nextTrack = await resolve(tracks.related.find(t => t.id).id);
+        track.next = nextTrack;
+    }
+
     async play(track, offline) {
         _current = track;
         _current.offline = !!offline;
 
         _playing = true;
 
-        if (!track.related.length) {
-            return;
-        }
-
-        const nextTrack = track.related.find(t => !!t.id);
-        if (!nextTrack) {
-            return;
-        }
-
-        track.next = nextTrack;
-
         this.emit('play', track);
-        await AudioPlayerNative.play(track.url, !!offline);
+        await AudioPlayerNative.play(track.url, false);
+
+        this._resolveNextTrack(track);
     }
 
     async seek(position) {

@@ -24,12 +24,12 @@
         "source": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable/abc_list_selector_holo_light.xml"
     },
     {
-        "merged": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/res/merged/debug/drawable/abc_dialog_material_background_dark.xml",
-        "source": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable/abc_dialog_material_background_dark.xml"
-    },
-    {
         "merged": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/www/android/app/build/intermediates/res/merged/debug/drawable/abc_dialog_material_background_light.xml",
         "source": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/www/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable/abc_dialog_material_background_light.xml"
+    },
+    {
+        "merged": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/res/merged/debug/drawable/abc_dialog_material_background_dark.xml",
+        "source": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable/abc_dialog_material_background_dark.xml"
     },
     {
         "merged": "/home/gngeorgiev@bedford.progress.com/stuff/audiotic/audiotic/android/app/build/intermediates/res/merged/debug/drawable/abc_dialog_material_background_light.xml",

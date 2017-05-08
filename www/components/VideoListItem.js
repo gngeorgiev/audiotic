@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { ListItem } from 'react-native-elements';
 import { AudioPlayer } from '../modules/AudioPlayer';
 import { YouTube } from 'audiotic-core';
+import { OfflineTracksManager } from '../modules/OfflineTracksManager'
 
 export class VideoListItem extends React.Component {
     static propTypes = {
@@ -38,8 +39,13 @@ export class VideoListItem extends React.Component {
         } else if (current && playing && current.id === id) {
             await AudioPlayer.pause();
         } else {
-            const track = await YouTube.resolve(id);
+            let track = await OfflineTracksManager.getTrack(id);
+            if (!track) {
+                track = await YouTube.resolve(id);
+            }
+            
             await AudioPlayer.play(track);
+            await OfflineTracksManager.saveTrack(track);
         }
 
         this.setState({loading: false});
