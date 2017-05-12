@@ -6,18 +6,20 @@ import { AudioPlayer } from '../modules/AudioPlayer';
 export class TrackSlider extends React.Component {
     static propTypes = {
         style: PropTypes.object
-    }
+    };
 
     state = {
         position: 0,
         length: 0
-    }
-    
+    };
+
     componentWillMount() {
-        this._positionListener = AudioPlayer.addListener('position', position => this.setState({
-            position,
-            length: +AudioPlayer.current.length
-        }))
+        this._positionListener = AudioPlayer.addListener('position', position =>
+            this.setState({
+                position,
+                length: +AudioPlayer.current.length
+            })
+        );
     }
 
     componentWillUnmount() {
@@ -30,14 +32,14 @@ export class TrackSlider extends React.Component {
 
         return (
             <Slider
-                thumbTouchSize={{width: 130, height: 150}}
-                trackStyle={{...style, ...styles.progress}}
+                thumbTouchSize={{ width: 130, height: 150 }}
+                trackStyle={{ ...style, ...styles.progress }}
                 value={position}
                 minimumValue={0}
                 maximumValue={length}
                 step={1}
-                minimumTrackTintColor='#00BAC1'
-                thumbStyle={{width: 5, height: 5, borderRadius: 0}}
+                minimumTrackTintColor="#00BAC1"
+                thumbStyle={{ width: 5, height: 5, borderRadius: 0 }}
                 onSlidingComplete={position => {
                     AudioPlayer.seek(position);
                 }}
@@ -52,4 +54,4 @@ const styles = {
         padding: 0,
         backgroundColor: '#4ff9f4'
     }
-}
+};

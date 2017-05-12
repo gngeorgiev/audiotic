@@ -1,5 +1,10 @@
-import {NativeModules, DeviceEventEmitter} from 'react-native';
+import { NativeModules, DeviceEventEmitter } from 'react-native';
 import EventEmitter from 'EventEmitter';
+import { YouTube } from 'audiotic-core';
+import {
+    OfflineTracksResolver,
+    OfflineTracksManager
+} from './OfflineTracksManager';
 
 const AudioPlayerNative = NativeModules.AudioPlayer;
 
@@ -13,23 +18,30 @@ let _playing = false;
 let _position = 0;
 
 class AudioPlayerModule extends EventEmitter {
-    //TODO: maybe bind a resolver directly?
-    constructor() {
+    _resolvers = {};
+    _offlineResolver;
+
+    constructor(resolvers = []) {
         super();
+
+        resolvers.forEach(r => this.registerResolver(r.name, r));
+        this.registerResolver('offline', new OfflineTracksResolver());
+        this._offlineResolver = this._resolvers.offline;
+
         DeviceEventEmitter.addListener('OnCompleted', () => this.emit('end'));
 
         setInterval(async () => {
-            const position = await this.currentPosition() / 1000;
+            const position = (await this.currentPosition()) / 1000;
             if (position >= 0) {
                 if (_position != position) {
                     this.emit('position', position);
                 }
-                
+
                 _position = position;
             }
         }, 500);
     }
-    
+
     get current() {
         return _current;
     }
@@ -40,6 +52,31 @@ class AudioPlayerModule extends EventEmitter {
 
     get position() {
         return _position;
+    }
+
+    registerResolver(key, resolver) {
+        this._resolvers[key] = resolver;
+    }
+
+    async isOffline({ id }) {
+        return !!await this._offlineResolver.resolve(id);
+    }
+
+    async resolve({ id, source }) {
+        const offlineTrack = await this._offlineResolver.resolve(id);
+        if (offlineTrack) {
+            return offlineTrack;
+        }
+
+        return await this._resolvers[source].resolve(id);
+    }
+
+    async search(str, source) {
+        if (source === 'offline') {
+            return await this._offlineResolver.search(str);
+        }
+
+        return await this._resolvers[source].search(str);
     }
 
     secondsToTime(seconds = this.position) {
@@ -58,8 +95,8 @@ class AudioPlayerModule extends EventEmitter {
         return `${minutesReadable}:${secondsReadable}`;
     }
 
-    async playNextTrack(resolve) {
-        const nextTrack = this.current.next;        
+    async playNextTrack() {
+        const nextTrack = this.current.next;
         if (!nextTrack) {
             return;
         }
@@ -69,7 +106,7 @@ class AudioPlayerModule extends EventEmitter {
         await this.play(nextTrack);
     }
 
-    async playPreviousTrack(resolve) {
+    async playPreviousTrack() {
         const previousTrack = this.current.previous;
         this.emit('previous', previousTrack);
         await this.play(previousTrack);
@@ -114,13 +151,15 @@ class AudioPlayerModule extends EventEmitter {
         //     .filter(t => !!t.id)
         //     .find(t => track.previous && t.id !== track.previous.id).id;
 
-        const nextTrack = await resolve(tracks.related.find(t => t.id).id);
+        const nextTrackUnresolved = track.related.find(t => t.id);
+        nextTrackUnresolved.source = track.source; //TODO:
+
+        const nextTrack = await this.resolve(nextTrackUnresolved);
         track.next = nextTrack;
     }
 
     async play(track, offline) {
         _current = track;
-        _current.offline = !!offline;
 
         _playing = true;
 
@@ -130,14 +169,37 @@ class AudioPlayerModule extends EventEmitter {
         this._resolveNextTrack(track);
     }
 
+    async downloadTrack(track) {
+        return await OfflineTracksManager.saveTrack(track);
+    }
+
+    async handleTrackSelected({ id, source }) {
+        const { playing, current } = this;
+
+        if (current && !playing && current.id === id) {
+            await this.resume();
+        } else if (current && playing && current.id === id) {
+            await this.pause();
+        } else {
+            const track = await this.resolve({ id, source });
+            await this.play(track);
+        }
+    }
+
     async seek(position) {
         _position = position;
         this.emit('seek', position);
         await AudioPlayerNative.seek(position * 1000);
     }
 
-    download({streamUrl, title, id, provider, thumbnail}) {
-        return AudioPlayerNative.saveToFile(streamUrl, title, id, provider, thumbnail);
+    download({ streamUrl, title, id, provider, thumbnail }) {
+        return AudioPlayerNative.saveToFile(
+            streamUrl,
+            title,
+            id,
+            provider,
+            thumbnail
+        );
     }
 
     getDownloadsFolder() {
@@ -145,4 +207,4 @@ class AudioPlayerModule extends EventEmitter {
     }
 }
 
-export const AudioPlayer = new AudioPlayerModule();
+export const AudioPlayer = new AudioPlayerModule([YouTube]);

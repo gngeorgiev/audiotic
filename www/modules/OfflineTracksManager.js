@@ -5,36 +5,95 @@ import rnfs from 'react-native-fs';
 class OfflineTracksManagerModule extends EventEmitter {
     _indexKey = '@OfflineTracksIndex_';
     _localUrl = rnfs.DocumentDirectoryPath;
+    _data = {};
+    _loaded = false;
+
+    get data() {
+        return Object.keys(this._data).map(id => this._data[id]);
+    }
+
+    constructor() {
+        super();
+
+        this._getIndex().then(index => {
+            this._data = Object.assign({}, index);
+            this._loaded = true;
+            this.emit('loaded');
+        });
+    }
 
     async _getIndex() {
-        return JSON.parse(await AsyncStorage.getItem(this._indexKey) || '{}');
+        let index = await AsyncStorage.getItem(this._indexKey);
+        if (!index) {
+            index = '{}';
+        }
+
+        return JSON.parse(index);
     }
 
     async _writeToIndex(track) {
-        const index = this._getIndex();
-        index[track.id] = track;
-        return await AsyncStorage.setItem(this._indexKey, JSON.stringify(index));
-    }
-
-    _getTrackLocalUrl(track) {
-        return `${this._localUrl}/${track.id}`;
-    }
-
-    async getTrack(id) {
         const index = await this._getIndex();
-        return index[id] || null;
+        index[track.id] = track;
+        this.data = Object.assign({}, index);
+        return await AsyncStorage.setItem(
+            this._indexKey,
+            JSON.stringify(index)
+        );
+    }
+
+    _getTrackLocalUrl({ id }) {
+        return `${this._localUrl}/${id}`;
+    }
+
+    async getTrack({ id }) {
+        const index = await this._getIndex();
+        if (index[id]) {
+            return index[id];
+        }
+
+        return null;
     }
 
     async saveTrack(track) {
+        const savedOfflineTrack = await this.getTrack(track);
+        if (savedOfflineTrack) {
+            return this.emit('downloaded', false);
+        }
+
         const fromUrl = track.url;
-        const toFile = this._getTrackLocalUrl(track.id);
+        const toFile = this._getTrackLocalUrl(track);
 
         await rnfs.downloadFile({ fromUrl, toFile }).promise;
-        track.url = toFile;
+        const offlineTrack = Object.assign({}, track);
 
-        await this._writeToIndex(track);
+        offlineTrack.url = toFile;
+        offlineTrack.source = 'offline';
 
-        this.emit('downloaded', track);
+        await this._writeToIndex(offlineTrack);
+
+        this.emit('downloaded', offlineTrack);
+    }
+}
+
+export class OfflineTracksResolver {
+    _tracksManager = new OfflineTracksManagerModule();
+
+    async resolve(id) {
+        return await this._tracksManager.getTrack({ id });
+    }
+
+    async search(str) {
+        const index = await this._tracksManager._getIndex();
+        if (!str) {
+            return Object.keys(index).map(id => index[id]);
+        }
+
+        return Object.keys(index)
+            .filter(id => {
+                const track = index[id];
+                return track.title.includes(str);
+            })
+            .map(id => index[id]);
     }
 }
 

@@ -9,104 +9,144 @@ import { AudioPlayer } from '../modules/AudioPlayer';
 import { TrackSlider } from '../elements/TrackSlider.element';
 import { PlayPauseButton } from '../elements/PlayPauseButton.element';
 
-import { YouTube } from 'audiotic-core';
-
 const { width, height } = Dimensions.get('window');
 
 export class FullScreenPlayerComponent extends PlayerComponent {
     static propTypes = {
         onBackPress: PropTypes.func.isRequired
-    }
+    };
 
     state = {
-        position: 0
-    }
+        position: 0,
+        trackDownloaded: false
+    };
 
     _renderButton(style, icon, onPress, color = '#fff') {
         return (
-            <Icon 
-                style={style} 
-                raised 
+            <Icon
+                style={style}
+                raised
                 size={35}
                 color={color}
-                name={icon} 
-                onPress={onPress} 
-                underlayColor='rgba(0,0,0,0)'    
+                name={icon}
+                onPress={onPress}
+                underlayColor="rgba(0,0,0,0)"
             />
-        )
+        );
     }
 
     _renderControlButton(iconName, action) {
         return (
-            <ActionButton 
+            <ActionButton
                 size={60}
-                icon={<Icon name={iconName} color='#6B6B6B' />}
+                icon={<Icon name={iconName} color="#6B6B6B" />}
                 onPress={() => action()}
-                buttonColor='#272929'
+                buttonColor="#272929"
             />
-        )
+        );
+    }
+
+    async _checkIfTrackIsDownloaded(track) {
+        const trackDownloaded = await AudioPlayer.isOffline(track);
+
+        this.setState({ trackDownloaded });
     }
 
     componentDidMount() {
-        this._positionListener = AudioPlayer.addListener('position', position => this.setState({position}));
+        this._positionListener = AudioPlayer.addListener('position', position =>
+            this.setState({ position })
+        );
+
+        this._playListener = AudioPlayer.addListener('play', track =>
+            this._checkIfTrackIsDownloaded(track)
+        );
+
+        if (AudioPlayer.playing) {
+            this._checkIfTrackIsDownloaded(AudioPlayer.current);
+        }
     }
 
     componentWillUnmount() {
         this._positionListener.remove();
+        this._playListener.remove();
     }
 
     render() {
         const { current } = AudioPlayer;
-        const { position } = this.state;
+        const { position, trackDownloaded } = this.state;
 
         return (
             <View style={styles.fullScreenPlayer}>
                 <View style={styles.playerContainer}>
                     <View style={styles.playerToolbarContainer}>
-                        {this._renderButton(styles.button, 'arrow-back', () => this.props.onBackPress())}
+                        {this._renderButton(styles.button, 'arrow-back', () =>
+                            this.props.onBackPress()
+                        )}
                     </View>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>{current.title}</Text>
                     </View>
                     <View style={styles.previewContainer}>
-                        <Image 
+                        <Image
                             style={styles.previewAvatar}
                             width={width * 0.75}
                             height={height * 0.45}
-                            source={current.default ? current.thumbnail: {uri: current.thumbnail}}
+                            source={
+                                current.default
+                                    ? current.thumbnail
+                                    : { uri: current.thumbnail }
+                            }
                         />
 
-                         <View style={styles.timeContainer}>
-                            <Text style={{color: '#fff'}}>{AudioPlayer.secondsToTime(current.length)}</Text>
-                            <Text style={{color: '#00BAC1'}}>{AudioPlayer.secondsToTime(position)}</Text>
+                        <View style={styles.timeContainer}>
+                            <Text style={{ color: '#fff' }}>
+                                {AudioPlayer.secondsToTime(current.length)}
+                            </Text>
+                            <Text style={{ color: '#00BAC1' }}>
+                                {AudioPlayer.secondsToTime(position)}
+                            </Text>
                         </View>
                         <View style={styles.sliderContainer}>
                             <TrackSlider
                                 position={position}
                                 length={current.length}
-                                style={{width: width * 0.95}}
+                                style={{ width: width * 0.95 }}
                                 onSeek={() => {}}
                             />
                         </View>
                         <View style={styles.extraButtonsContainer}>
                             {this._renderButton(styles.button, 'favorite')}
-                            {this._renderButton(styles.button, 'cloud-download')}
+                            {this._renderButton(
+                                styles.button,
+                                'cloud-download',
+                                async () => {
+                                    await AudioPlayer.downloadTrack(current);
+                                    await this._checkIfTrackIsDownloaded(
+                                        current
+                                    );
+                                },
+                                trackDownloaded ? '#f4424b' : '#fff'
+                            )}
                         </View>
                     </View>
                     <View style={styles.controlContainer}>
-                        <View style={{flex: 1}}>
-                            {this._renderControlButton('fast-rewind', () => AudioPlayer.playPreviousTrack(YouTube.resolve.bind(YouTube)))}
+                        <View style={{ flex: 1 }}>
+                            {this._renderControlButton('fast-rewind', () =>
+                                AudioPlayer.playPreviousTrack()
+                            )}
                         </View>
-                        <View style={{flex: 1}}>
+                        <View style={{ flex: 1 }}>
                             <PlayPauseButton style={styles.controlButton} />
                         </View>
-                        <View style={{flex: 1}}>
-                            {this._renderControlButton('fast-forward', () => AudioPlayer.playNextTrack(YouTube.resolve.bind(YouTube)))}
+                        <View style={{ flex: 1 }}>
+                            {this._renderControlButton('fast-forward', () =>
+                                AudioPlayer.playNextTrack()
+                            )}
                         </View>
                     </View>
                 </View>
             </View>
-        )
+        );
     }
 }
 
@@ -141,8 +181,7 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center'
     },
-    previewAvatar: {
-    },
+    previewAvatar: {},
     extraButtonsContainer: {
         flex: 0.5,
         flexDirection: 'row',
@@ -160,9 +199,9 @@ const styles = {
         height: 10
     },
     timeContainer: {
-        flex: 0.2, 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
+        flex: 0.2,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         width: width * 0.9
     }
-}
+};

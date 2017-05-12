@@ -2,11 +2,13 @@ import React, { PropTypes } from 'react';
 import { ScrollView, View } from 'react-native';
 import { VideoListItem } from './VideoListItem';
 import { List, SearchBar } from 'react-native-elements';
+import { OfflineTracksManager } from '../modules/OfflineTracksManager';
 
 export class TracksViewComponent extends React.Component {
     static propTypes = {
-        onSearch: PropTypes.func
-    }
+        onSearch: PropTypes.func,
+        offlineMode: PropTypes.bool
+    };
 
     constructor() {
         super();
@@ -18,6 +20,24 @@ export class TracksViewComponent extends React.Component {
         };
     }
 
+    async componentDidMount() {
+        const { offlineMode } = this.props;
+
+        if (offlineMode) {
+            if (!OfflineTracksManager._loaded) {
+                OfflineTracksManager.once('loaded', () =>
+                    this.setState({
+                        dataSource: OfflineTracksManager.data
+                    })
+                );
+            } else {
+                this.setState({
+                    dataSource: OfflineTracksManager.data
+                });
+            }
+        }
+    }
+
     render() {
         const { onSearch } = this.props;
 
@@ -25,12 +45,12 @@ export class TracksViewComponent extends React.Component {
             <View>
                 <ScrollView>
                     <SearchBar
-                        placeholder='e.g. Martin Garrix'
+                        placeholder="e.g. Martin Garrix"
                         lightTheme={true}
                         showLoadingIcon={this.state.searching}
-                        onChangeText={text => this.setState({text})}
+                        onChangeText={text => this.setState({ text })}
                         onSubmitEditing={async () => {
-                            this.setState({searching: true})
+                            this.setState({ searching: true });
                             const dataSource = await onSearch(this.state.text);
                             this.setState({
                                 searching: false,
@@ -38,16 +58,18 @@ export class TracksViewComponent extends React.Component {
                             });
                         }}
                     />
-                    <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
-                        {
-                            this.state.dataSource.map(track => (
-                                <VideoListItem key={track.id} track={track} />
-                            ))
-                        }
+                    <List
+                        containerStyle={{
+                            borderTopWidth: 0,
+                            borderBottomWidth: 0
+                        }}
+                    >
+                        {this.state.dataSource.map(track => (
+                            <VideoListItem key={track.id} track={track} />
+                        ))}
                     </List>
                 </ScrollView>
             </View>
-            
-        )
+        );
     }
 }
