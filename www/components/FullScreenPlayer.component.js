@@ -3,15 +3,14 @@ import { View, Button, Dimensions, Text, Image } from 'react-native';
 import { Icon, Avatar } from 'react-native-elements';
 import ActionButton from 'react-native-circular-action-menu';
 
-import { PlayerComponent } from './Player.component';
 import { AudioPlayer } from '../modules/AudioPlayer';
 
-import { TrackSlider } from '../elements/TrackSlider.element';
+import { TrackSlider } from './player/track-slider.element';
 import { PlayPauseButton } from '../elements/PlayPauseButton.element';
 
 const { width, height } = Dimensions.get('window');
 
-export class FullScreenPlayerComponent extends PlayerComponent {
+export class FullScreenPlayerComponent extends React.Component {
     static propTypes = {
         onBackPress: PropTypes.func.isRequired
     };

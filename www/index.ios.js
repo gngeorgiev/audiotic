@@ -1,3 +1,3 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
-AppRegistry.registerComponent('audiotic', () => App);
+import ReduxApp from './App';
+AppRegistry.registerComponent('audiotic', () => ReduxApp);

@@ -8,8 +8,16 @@ class OfflineTracksManagerModule extends EventEmitter {
     _data = {};
     _loaded = false;
 
-    get data() {
-        return Object.keys(this._data).map(id => this._data[id]);
+    async data() {
+        const data = await new Promise(resolve => {
+            if (!this._loaded) {
+                return this.once('loaded', () => resolve(this._data));
+            } else {
+                return resolve(this._data);
+            }
+        });
+
+        return Object.keys(data).map(id => data[id]);
     }
 
     constructor() {
@@ -76,6 +84,8 @@ class OfflineTracksManagerModule extends EventEmitter {
 }
 
 export class OfflineTracksResolver {
+    name = 'offline';
+
     _tracksManager = new OfflineTracksManagerModule();
 
     async resolve(id) {
@@ -83,11 +93,11 @@ export class OfflineTracksResolver {
     }
 
     async search(str) {
-        const index = await this._tracksManager._getIndex();
         if (!str) {
-            return Object.keys(index).map(id => index[id]);
+            return await this._tracksManager.data();
         }
 
+        const index = await this._tracksManager._getIndex();
         return Object.keys(index)
             .filter(id => {
                 const track = index[id];

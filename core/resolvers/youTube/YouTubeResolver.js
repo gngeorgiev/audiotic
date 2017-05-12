@@ -14,13 +14,9 @@ const EMBED_URL = 'https://www.youtube.com/embed/';
 const VIDEO_EURL = 'https://youtube.googleapis.com/v/';
 const INFO_HOST = 'www.youtube.com';
 const INFO_PATH = '/get_video_info';
-const KEYS_TO_SPLIT = [
-    'keywords',
-    'fmt_list',
-    'fexp',
-    'watermark'
-];
-const SUGGEST_URL = 'http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q='
+const KEYS_TO_SPLIT = ['keywords', 'fmt_list', 'fexp', 'watermark'];
+const SUGGEST_URL =
+    'http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=';
 const SEARCH_URL = 'https://www.youtube.com/results?search_query=';
 const VIDEO_CLASS = '.yt-lockup-video';
 const VIDEO_ID_LENGTH = 11;
@@ -40,10 +36,14 @@ class YouTubeResolver extends BaseResolver {
             published: util.getPublished(videoBody),
             description: util.getVideoDescription(videoBody),
             relatedVideos: util.getRelatedVideos(videoBody),
-            video_url: videoUrl,
+            video_url: videoUrl
         };
 
-        let jsonStr = util.between(videoBody, 'ytplayer.config = ', '</script>');
+        let jsonStr = util.between(
+            videoBody,
+            'ytplayer.config = ',
+            '</script>'
+        );
         if (jsonStr) {
             jsonStr = jsonStr.slice(0, jsonStr.lastIndexOf(';ytplayer.load'));
             let config;
@@ -57,13 +57,16 @@ class YouTubeResolver extends BaseResolver {
             }
 
             return await this._parseConfig(id, additional, config);
-
         }
 
         const embedUrl = `${EMBED_URL}${id}`;
         const embedResponse = await fetch(embedUrl);
         const embedBody = await embedResponse.text();
-        let config = util.between(embedBody, 't.setConfig({\'PLAYER_CONFIG\': ', '},\'');
+        let config = util.between(
+            embedBody,
+            "t.setConfig({'PLAYER_CONFIG': ",
+            "},'"
+        );
         if (!config) {
             throw new Error('Could not find `player config`');
         }
@@ -78,15 +81,18 @@ class YouTubeResolver extends BaseResolver {
     }
 
     _decipherURL(url, tokens) {
-        return url.replace(/\/s\/([a-fA-F0-9\.]+)/, function (_, s) {
+        return url.replace(/\/s\/([a-fA-F0-9\.]+)/, function(_, s) {
             return '/signature/' + sig.decipher(tokens, s);
         });
     }
 
     async _parseConfig(id, additional, config) {
         if (config.status === 'fail') {
-            throw new Error(config.errorcode && config.reason ?
-                'Code ' + config.errorcode + ': ' + config.reason : 'Video not found');
+            throw new Error(
+                config.errorcode && config.reason
+                    ? 'Code ' + config.errorcode + ': ' + config.reason
+                    : 'Video not found'
+            );
         }
 
         const infoUrl = url.format({
@@ -99,8 +105,8 @@ class YouTubeResolver extends BaseResolver {
                 ps: 'default',
                 gl: 'US',
                 hl: 'en',
-                sts: config.sts,
-            },
+                sts: config.sts
+            }
         });
 
         const infoResponse = await fetch(infoUrl);
@@ -121,14 +127,20 @@ class YouTubeResolver extends BaseResolver {
             info[key] = info[key].split(',').filter(v => v !== '');
         });
 
-        info.fmt_list = info.fmt_list ?
-            info.fmt_list.map(format => format.split('/')) : [];
+        info.fmt_list = info.fmt_list
+            ? info.fmt_list.map(format => format.split('/'))
+            : [];
 
         info.formats = util.parseFormats(info);
 
         info = util.objectAssign(info, additional, false);
 
-        if (info.formats.some(f => !!f.s) || config.args.dashmpd || info.dashmpd || info.hlsvp) {
+        if (
+            info.formats.some(f => !!f.s) ||
+            config.args.dashmpd ||
+            info.dashmpd ||
+            info.hlsvp
+        ) {
             const html5playerfile = url.resolve(VIDEO_URL, config.assets.js);
             const tokens = await sig.getTokens(html5playerfile);
             sig.decipherFormats(info.formats, tokens);
@@ -165,15 +177,16 @@ class YouTubeResolver extends BaseResolver {
         const info = await this._getVideoInfo(id);
         const video = {
             id: id,
+            source: this.name,
             title: info.title,
             thumbnail: this._getThumbnail(id),
-            length: info.length_seconds,
+            length: +info.length_seconds,
             stream: _.find(info.formats, f => this._filterFormat(f, 'webm')) ||
-                _.find(info.formats, f => this._filterFormat(f, 'mp4')) ||
-                _.find(info.formats, f => this._filterFormat(f, 'mp3')) || {
-                    url: 'unknown',
-                    signature: 'unknown'
-                },
+            _.find(info.formats, f => this._filterFormat(f, 'mp4')) ||
+            _.find(info.formats, f => this._filterFormat(f, 'mp3')) || {
+                url: 'unknown',
+                signature: 'unknown'
+            },
             get url() {
                 return this.stream.url;
             },
@@ -181,19 +194,21 @@ class YouTubeResolver extends BaseResolver {
                 return {
                     id: v.id,
                     title: v.title,
-                    length: v.length_seconds,
+                    length: +v.length_seconds,
                     thumbnail: this._getThumbnail(v.id)
-                }
+                };
             })
-
         };
 
         return video;
     }
 
     async suggest(substring) {
-        const response = await fetch(`${SUGGEST_URL}${encodeURIComponent(substring)}`);
+        const response = await fetch(
+            `${SUGGEST_URL}${encodeURIComponent(substring)}`
+        );
         const data = await response.json();
+        data.source = this.name;
         return data[1];
     }
 
@@ -202,17 +217,19 @@ class YouTubeResolver extends BaseResolver {
         const response = await fetch(url);
         const $ = cheerio.load(await response.text());
         const videoElements = $(VIDEO_CLASS);
-        const getIdSelector = id => `${VIDEO_CLASS}[data-context-item-id=${id}]`;
+        const getIdSelector = id =>
+            `${VIDEO_CLASS}[data-context-item-id=${id}]`;
 
-        return Array.from(videoElements).map((videoEl) => {
+        return Array.from(videoElements).map(videoEl => {
             const id = videoEl.attribs['data-context-item-id'];
             const idSelector = getIdSelector(id);
 
             return {
                 id: id,
+                source: this.name,
                 thumbnail: this._getThumbnail(id),
                 title: $(idSelector).find('.yt-lockup-title > a').attr('title')
-            }
+            };
         });
     }
 }

@@ -70,28 +70,13 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     }
 
     private void emitEvent(String ev, @Nullable WritableMap params) {
-        this.getReactApplicationContext()
-                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit(ev, params);
-    }
-
-    private File getDownloadsFolder() {
-        File root = android.os.Environment.getExternalStorageDirectory();
-        return new File(root.getAbsolutePath() + "/beatster/downloads");
-    }
-
-    private String getOfflineTrackPath(String filename) {
-        return this.getDownloadsFolder().getAbsolutePath() + "/" + filename;
+        this.getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(ev,
+                params);
     }
 
     @Override
     public String getName() {
         return "AudioPlayer";
-    }
-
-    @ReactMethod
-    public void getDownloadsFolderPath(Promise promise) {
-        promise.resolve(this.getDownloadsFolder().getPath());
     }
 
     @ReactMethod
@@ -114,91 +99,11 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
         }
     }
 
-    private void addTrackToDataJson(String name, String id, String provider, String thumbnail, File path) throws Exception {
-        String dataPath = path.getAbsolutePath() + "/data.json";
-        File dataFile = new File(dataPath);
-        boolean dataExists = dataFile.exists();
-        if (!dataExists) {
-                PrintWriter printWriter = new PrintWriter(dataPath, "utf-8");
-                printWriter.write("[]");
-                printWriter.close();
-        }
-
-        FileReader fileReader = new FileReader(dataPath);
-        char[] chars = new char[(int) dataFile.length()];
-        fileReader.read(chars);
-        fileReader.close();
-        String jsonString = new String(chars);
-        JSONArray jsonArray = new JSONArray(jsonString);
-        JSONObject trackObject = new JSONObject();
-        trackObject.put("title", name);
-        trackObject.put("id", id);
-        trackObject.put("provider", provider);
-        trackObject.put("thumbnail", thumbnail);
-        trackObject.put("offline", true);
-        jsonArray.put(trackObject);
-
-        PrintWriter writer = new PrintWriter(dataPath, "utf-8");
-        writer.println(jsonArray.toString());
-        writer.close();
-    }
-
     @ReactMethod
-    public void saveToFile(final String streamUrl, final String name,
-                           final String id, final String provider, final String thumbnail, final Promise promise) {
-        try {
-            final File dir = this.getDownloadsFolder();
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-
-            final AudioPlayer self = this;
-
-            final Thread t = new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        URL downloadUrl = new URL(streamUrl);
-                        File file = new File(dir, id);
-
-                        URLConnection conn = downloadUrl.openConnection();
-                        InputStream inputStream = conn.getInputStream();
-                        FileOutputStream fileOutputStream = new FileOutputStream(file);
-
-                        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-                        byte[] data = new byte[1024];
-                        int current;
-                        while ((current = bufferedInputStream.read(data, 0, data.length)) != -1) {
-                            fileOutputStream.write(data, 0, current);
-                        }
-
-                        fileOutputStream.close();
-                        self.addTrackToDataJson(name, id, provider, thumbnail, dir);
-                        self.emitEvent("OnDownloaded", null);
-                        promise.resolve(null);
-                    } catch (Exception e) {
-                        promise.reject(e);
-                        Log.v(TAG, e.toString());
-                    }
-                }
-            });
-
-            t.start();
-        } catch (Exception e) {
-            promise.reject(e);
-            Log.v(TAG, e.toString());
-        }
-    }
-
-    @ReactMethod
-    public void play(String urlOrname, boolean offline, final Promise promise) {
+    public void play(String urlOrname, final Promise promise) {
         //TODO: add a small go server that will run on the phone, we will stream through it
         //so we can both play the tracks and save them at the same time
         try {
-            if (offline) {
-                urlOrname = this.getOfflineTrackPath(urlOrname);
-            }
-
             if (this.player.isPlaying() && this.dataSource.equals(urlOrname)) {
                 promise.resolve(null);
                 return;

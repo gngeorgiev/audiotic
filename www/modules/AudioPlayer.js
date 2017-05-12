@@ -1,10 +1,12 @@
 import { NativeModules, DeviceEventEmitter } from 'react-native';
 import EventEmitter from 'EventEmitter';
-import { YouTube } from 'audiotic-core';
+import { resolvers } from 'audiotic-core';
 import {
     OfflineTracksResolver,
     OfflineTracksManager
 } from './OfflineTracksManager';
+
+const { YouTube } = resolvers;
 
 const AudioPlayerNative = NativeModules.AudioPlayer;
 
@@ -127,7 +129,7 @@ class AudioPlayerModule extends EventEmitter {
     async resume() {
         _playing = true;
         this.emit('resume');
-        await AudioPlayerNative.play('', this.current.offline);
+        await AudioPlayerNative.play('');
     }
 
     async pause() {
@@ -158,13 +160,13 @@ class AudioPlayerModule extends EventEmitter {
         track.next = nextTrack;
     }
 
-    async play(track, offline) {
+    async play(track) {
         _current = track;
 
         _playing = true;
 
         this.emit('play', track);
-        await AudioPlayerNative.play(track.url, false);
+        await AudioPlayerNative.play(track.url);
 
         this._resolveNextTrack(track);
     }

@@ -7,25 +7,30 @@ import { Icon } from 'react-native-elements';
 export class PlayPauseButton extends React.Component {
     static propTypes = {
         style: PropTypes.object,
-        size: PropTypes.number
-    }
+        size: PropTypes.number,
+        onPress: PropTypes.func,
+        playing: PropTypes.bool
+    };
+
+    static defaultProps = {
+        size: 60,
+        onPress: () => {}
+    };
 
     render() {
-        const {
-            size = 60
-        } = this.props;
+        const { size, onPress, playing } = this.props;
 
         return (
             <ActionButton
                 size={size}
                 icon={
-                    AudioPlayer.playing ?
-                    <Icon name='pause' color='#fff' /> :
-                    <Icon name='play-arrow' color='#fff' />
+                    playing
+                        ? <Icon name="pause" color="#fff" />
+                        : <Icon name="play-arrow" color="#fff" />
                 }
-                onPress={() => AudioPlayer.pauseResumeTrack()}
-                buttonColor='#00BAC1'
+                onPress={() => onPress()}
+                buttonColor="#00BAC1"
             />
-        )
+        );
     }
 }

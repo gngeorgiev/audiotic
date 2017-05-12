@@ -12,13 +12,24 @@ function extendGlobalScope(globals) {
 }
 
 function createLib(platformSettings) {
-    const audiotic = {};
-    Object.keys(resolvers).forEach(r => audiotic[r] = new resolvers[r](platformSettings));
+    const audiotic = {
+        resolvers: {}
+    };
+
+    const registerCustomResolver = resolver => {
+        audiotic[resolver.name] = resolver;
+    };
+
+    audiotic.registerCustomResolver = registerCustomResolver;
+
+    Object.keys(resolvers).forEach(
+        r => (audiotic.resolvers[r] = new resolvers[r](platformSettings))
+    );
     return audiotic;
 }
 
 module.exports = function(globals, platformSettings = {}) {
     extendGlobalScope(globals);
-    
+
     return createLib(platformSettings);
-}
+};

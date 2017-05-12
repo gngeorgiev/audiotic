@@ -2,13 +2,24 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Tabs, Tab, Icon } from 'react-native-elements';
 import Display from 'react-native-display';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { registerCustomResolver } from 'audiotic-core';
 
-import { PlayerComponent } from './components/Player.component';
+import { reducers } from './reducers';
+import defaultState from './defaultState';
+
+import Player from './components/player/player.container';
 import {
     FullScreenPlayerComponent
 } from './components/FullScreenPlayer.component';
 import { AudioPlayer } from './modules/AudioPlayer';
-import { TracksViewComponent } from './components/TracksView.component';
+import TracksViewContainer
+    from './components/tracks-view/tracks-view.container';
+import { OfflineTracksResolver } from './modules/OfflineTracksManager';
+
+registerCustomResolver(new OfflineTracksResolver());
 
 const states = {
     search: 'search',
@@ -16,7 +27,7 @@ const states = {
     saved: 'save'
 };
 
-export default class App extends React.Component {
+class App extends React.Component {
     state = {
         screen: states.search,
         showFullScreenPlayer: false
@@ -50,7 +61,7 @@ export default class App extends React.Component {
                     keepAlive={true}
                 >
                     <View style={styles.container}>
-                        <PlayerComponent
+                        <Player
                             onPress={() =>
                                 this.setState({ showFullScreenPlayer: true })}
                         />
@@ -76,16 +87,14 @@ export default class App extends React.Component {
                                             screen: states.search
                                         })}
                                 >
-                                    <TracksViewComponent
+                                    <TracksViewContainer
                                         active={
                                             this.state.screen === states.search
                                         }
                                         hidden={
                                             this.state.screen !== states.search
                                         }
-                                        searchString={this.state.searchString}
-                                        onSearch={str =>
-                                            AudioPlayer.search(str, 'YouTube')}
+                                        source="online"
                                     />
                                 </Tab>
                                 <Tab
@@ -125,7 +134,7 @@ export default class App extends React.Component {
                                     onPress={() =>
                                         this.setState({ screen: states.saved })}
                                 >
-                                    <TracksViewComponent
+                                    {/*<TracksViewContainer
                                         active={
                                             this.state.screen === states.search
                                         }
@@ -136,7 +145,7 @@ export default class App extends React.Component {
                                         offlineMode={true}
                                         onSearch={str =>
                                             AudioPlayer.search(str, 'offline')}
-                                    />
+                                    />*/}
                                 </Tab>
                             </Tabs>
                         </View>
@@ -162,3 +171,15 @@ const styles = StyleSheet.create({
         flex: 0.33
     }
 });
+
+const store = createStore(reducers, defaultState, applyMiddleware(thunk));
+
+export default class ReduxApp extends React.Component {
+    render() {
+        return (
+            <Provider store={store}>
+                <App />
+            </Provider>
+        );
+    }
+}
