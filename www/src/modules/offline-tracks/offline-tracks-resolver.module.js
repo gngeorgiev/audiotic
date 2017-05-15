@@ -1,20 +1,18 @@
-import { OfflineTracksManager } from './offline-tracks-manager.module';
+import offlineTracksManager from './offline-tracks-manager.module';
 
 export class OfflineTracksResolver {
     name = 'offline';
 
-    _tracksManager = new OfflineTracksManager();
-
     async resolve(id) {
-        return await this._tracksManager.getTrack({ id });
+        return await offlineTracksManager.getTrack({ id });
     }
 
     async search(str) {
         if (!str) {
-            return await this._tracksManager.data();
+            return await offlineTracksManager.data();
         }
 
-        const index = await this._tracksManager._getIndex();
+        const index = await offlineTracksManager._getIndex();
         return Object.keys(index)
             .filter(id => {
                 const track = index[id];

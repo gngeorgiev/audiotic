@@ -7,7 +7,8 @@ import {
     playPause,
     seek,
     playNext,
-    playPrev
+    playPrev,
+    download
 } from './player.actions';
 import audioPlayer from '../../modules/audio-player/audio-player.module';
 import PlayerComponent from './player.component';
@@ -36,7 +37,8 @@ class PlayerContainer extends React.Component {
             onSeek,
             fullScreen,
             playNext,
-            playPrev
+            playPrev,
+            download
         } = this.props;
         const { track, position, playing } = player;
 
@@ -51,6 +53,7 @@ class PlayerContainer extends React.Component {
                   onBack={() => Actions.pop()}
                   onForwardTap={() => playNext()}
                   onBackwardTap={() => playPrev()}
+                  onDownloadTap={track => download(track)}
               />
             : <PlayerComponent
                   track={track}
@@ -73,7 +76,8 @@ const mapDispatch = dispatch => ({
     onSeek: position => dispatch(seek(position)),
     updatePosition: () => dispatch(updatePosition()),
     playNext: () => dispatch(playNext()),
-    playPrev: () => dispatch(playPrev())
+    playPrev: () => dispatch(playPrev()),
+    download: track => dispatch(download(track))
 });
 
 export default connect(mapState, mapDispatch)(PlayerContainer);

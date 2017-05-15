@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 import EventEmitter from 'EventEmitter';
 import rnfs from 'react-native-fs';
 
-export class OfflineTracksManager extends EventEmitter {
+class OfflineTracksManager extends EventEmitter {
     _indexKey = '@OfflineTracksIndex_';
     _localUrl = rnfs.DocumentDirectoryPath;
     _data = {};
@@ -80,5 +80,8 @@ export class OfflineTracksManager extends EventEmitter {
         await this._writeToIndex(offlineTrack);
 
         this.emit('downloaded', offlineTrack);
+        return offlineTrack;
     }
 }
+
+export default new OfflineTracksManager();

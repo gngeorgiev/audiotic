@@ -22,6 +22,11 @@ export const player = (state = defaultState.player, action) => {
             return Object.assign({}, state, {
                 loadingId: action.loadingId
             });
+        case 'DOWNLOAD_TRACK':
+            return Object.assign({}, state, {
+                track: action.track,
+                isOffline: action.isOffline
+            });
         default:
             return state;
     }

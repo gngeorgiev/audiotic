@@ -21,7 +21,8 @@ export default class FullScreenPlayerComponent extends React.Component {
         onBack: PropTypes.func,
         isTrackOffline: PropTypes.bool,
         onForwardTap: PropTypes.func,
-        onBackwardTap: PropTypes.func
+        onBackwardTap: PropTypes.func,
+        onDownloadTap: PropTypes.func
     };
 
     static defaultProps = {
@@ -65,7 +66,8 @@ export default class FullScreenPlayerComponent extends React.Component {
             isTrackOffline,
             onBack,
             onForwardTap,
-            onBackwardTap
+            onBackwardTap,
+            onDownloadTap
         } = this.props;
 
         return (
@@ -92,11 +94,11 @@ export default class FullScreenPlayerComponent extends React.Component {
                         />
 
                         <View style={styles.timeContainer}>
-                            <Text style={{ color: '#fff' }}>
-                                {secondsToTime(track.length)}
-                            </Text>
                             <Text style={{ color: '#00BAC1' }}>
                                 {secondsToTime(position)}
+                            </Text>
+                            <Text style={{ color: '#fff' }}>
+                                {secondsToTime(track.length)}
                             </Text>
                         </View>
                         <View style={styles.sliderContainer}>
@@ -112,7 +114,7 @@ export default class FullScreenPlayerComponent extends React.Component {
                             {this._renderButton(
                                 styles.button,
                                 'cloud-download',
-                                async () => {},
+                                () => onDownloadTap(track),
                                 isTrackOffline ? '#f4424b' : '#fff'
                             )}
                         </View>

@@ -1,6 +1,8 @@
 import audioPlayer from '../../modules/audio-player/audio-player.module';
 
 import trackResolver from '../../modules/track-resolver/track-resolver.module';
+import offlineTracksManager
+    from '../../modules/offline-tracks/offline-tracks-manager.module';
 
 export const toggleTrackLoading = loadingId => {
     return {
@@ -42,6 +44,18 @@ export const playNext = () => {
         track.next.previous = track;
 
         return dispatch(play(track.next));
+    };
+};
+
+export const download = track => {
+    return async dispatch => {
+        const offlineTrack = await offlineTracksManager.saveTrack(track);
+
+        return dispatch({
+            type: 'DOWNLOAD_TRACK',
+            track: offlineTrack,
+            isOffline: true
+        });
     };
 };
 

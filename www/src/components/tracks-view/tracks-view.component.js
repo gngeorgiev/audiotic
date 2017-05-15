@@ -19,7 +19,7 @@ export class TracksViewComponent extends React.Component {
     constructor() {
         super();
 
-        this.state = { text: 'Martin Garrix' };
+        this.state = { text: '' };
     }
 
     render() {
