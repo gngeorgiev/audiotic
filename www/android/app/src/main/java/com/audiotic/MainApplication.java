@@ -2,7 +2,7 @@ package com.audiotic;
 
 import android.app.Application;
 
-import com.beatstr.audioPlayer.*;
+import com.audiotic.audioPlayer.*;
 import com.facebook.react.ReactApplication;
 import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;

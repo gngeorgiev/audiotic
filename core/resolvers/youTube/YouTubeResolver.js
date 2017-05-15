@@ -181,12 +181,13 @@ class YouTubeResolver extends BaseResolver {
             title: info.title,
             thumbnail: this._getThumbnail(id),
             length: +info.length_seconds,
-            stream: _.find(info.formats, f => this._filterFormat(f, 'webm')) ||
-            _.find(info.formats, f => this._filterFormat(f, 'mp4')) ||
-            _.find(info.formats, f => this._filterFormat(f, 'mp3')) || {
-                url: 'unknown',
-                signature: 'unknown'
-            },
+            stream: info.formats.find(
+                f =>
+                    f.audioBitrate &&
+                    f.url &&
+                    !f.resolution &&
+                    f.container !== 'webm'
+            ),
             get url() {
                 return this.stream.url;
             },

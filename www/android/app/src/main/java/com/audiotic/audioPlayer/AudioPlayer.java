@@ -1,13 +1,10 @@
-package com.beatstr.audioPlayer;
+package com.audiotic.audioPlayer;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.facebook.common.internal.Files;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -15,32 +12,19 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
-
-class DownloadTrackTask extends AsyncTask<String, Void, Void> {
-    @Override
-    protected Void doInBackground(String... params) {
-
-        return null;
-    }
-}
-
 public class AudioPlayer extends ReactContextBaseJavaModule {
     private static final String TAG = "AudioPlayer";
 
-    private static final String EVENT_ONCOMPLETED = "OnCompleted";
+    private static final String ON_TRACK_END = "ON_TRACK_END";
 
-    private MediaPlayer player;
-    private String dataSource;
+    private static MediaPlayer player;
+    private static String dataSource;
 
     AudioPlayer(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.player = this.createMediaPlayer();
+        if (player == null) {
+            player = this.createMediaPlayer();
+        }
     }
 
     private MediaPlayer createMediaPlayer() {
@@ -56,15 +40,15 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
 
     private void handleError(String code, Exception e, Promise promise) {
         Log.v(TAG, code, e);
-        if (this.player.isPlaying()) {
-            this.player.stop();
+        if (player.isPlaying()) {
+            player.stop();
         }
 
-        this.player.reset();
-        this.player.release();
-        this.player = null;
-        this.player = this.createMediaPlayer();
-        this.dataSource = null;
+        player.reset();
+        player.release();
+        player = null;
+        player = this.createMediaPlayer();
+        dataSource = null;
 
         promise.reject(code, e.getMessage(), e);
     }
@@ -82,7 +66,7 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     @ReactMethod
     public void stop(Promise promise) {
         try {
-            this.player.stop();
+            player.stop();
             promise.resolve(null);
         } catch (Exception e) {
             this.handleError(e, promise);
@@ -92,7 +76,7 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     @ReactMethod
     public void pause(Promise promise) {
         try {
-            this.player.pause();
+            player.pause();
             promise.resolve(null);
         } catch (Exception e) {
             this.handleError(e, promise);
@@ -104,47 +88,47 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
         //TODO: add a small go server that will run on the phone, we will stream through it
         //so we can both play the tracks and save them at the same time
         try {
-            if (this.player.isPlaying() && this.dataSource.equals(urlOrname)) {
+            if (player.isPlaying() && dataSource.equals(urlOrname)) {
                 promise.resolve(null);
                 return;
             }
 
             if (urlOrname == null || urlOrname.equals("")) {
-                urlOrname = this.dataSource;
+                urlOrname = dataSource;
             }
 
-            if (this.dataSource != null && this.dataSource.equals(urlOrname)) {
-                this.player.start();
+            if (dataSource != null && dataSource.equals(urlOrname)) {
+                player.start();
                 promise.resolve(null);
                 return;
             }
 
             final AudioPlayer self = this;
 
-            this.player.reset();
-            this.player.setDataSource(urlOrname);
-            this.player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            player.reset();
+            player.setDataSource(urlOrname);
+            player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     mp.start();
                     promise.resolve(null);
                 }
             });
-            this.player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
                     self.handleError(Integer.toString(what), new Exception(Integer.toString(extra)), promise);
                     return true;
                 }
             });
-            this.player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    self.emitEvent(EVENT_ONCOMPLETED, null);
+                    self.emitEvent(ON_TRACK_END, null);
                 }
             });
-            this.player.prepareAsync();
-            this.dataSource = urlOrname;
+            player.prepareAsync();
+            dataSource = urlOrname;
         } catch (Exception e) {
             this.handleError(e, promise);
         }
@@ -153,7 +137,7 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getDuration(Promise promise) {
         try {
-            int duration = this.player.getDuration();
+            int duration = player.getDuration();
             promise.resolve(duration);
         } catch (Exception e) {
             this.handleError(e, promise);
@@ -163,7 +147,7 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCurrentPosition(Promise promise) {
         try {
-            int pos = this.player.getCurrentPosition();
+            int pos = player.getCurrentPosition();
             promise.resolve(pos);
         } catch (Exception e) {
             this.handleError(e, promise);
@@ -173,7 +157,7 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isPlaying(Promise promise) {
         try {
-            boolean isPlaying = this.player.isPlaying();
+            boolean isPlaying = player.isPlaying();
             promise.resolve(isPlaying);
         } catch (Exception e) {
             this.handleError(e, promise);
@@ -181,10 +165,16 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void seek(int position, Promise promise) {
+    public void seek(int position, final Promise promise) {
         try {
-            this.player.seekTo(position);
-            promise.resolve(null);
+            player.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                @Override
+                public void onSeekComplete(MediaPlayer mp) {
+                    promise.resolve(null);
+                }
+            });
+
+            player.seekTo(position);
         } catch (Exception e) {
             this.handleError(e, promise);
         }

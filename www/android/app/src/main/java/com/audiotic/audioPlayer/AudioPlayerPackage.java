@@ -1,4 +1,4 @@
-package com.beatstr.audioPlayer;
+package com.audiotic.audioPlayer;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
