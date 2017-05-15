@@ -25,7 +25,6 @@ export default class PlayerView extends React.Component {
                 <View style={{ flex: 2 }}>
                     <Tabs>
                         <Tab
-                            title="Search"
                             selected={this.state.screen === states.search}
                             renderIcon={() => <Icon name={states.search} />}
                             renderSelectedIcon={() => (
@@ -43,7 +42,6 @@ export default class PlayerView extends React.Component {
                             />
                         </Tab>
                         <Tab
-                            title="History"
                             selected={this.state.screen === states.history}
                             renderIcon={() => <Icon name={states.history} />}
                             renderSelectedIcon={() => (
@@ -56,7 +54,6 @@ export default class PlayerView extends React.Component {
                         />
 
                         <Tab
-                            title="Saved"
                             selected={this.state.screen === states.saved}
                             renderIcon={() => <Icon name={states.saved} />}
                             renderSelectedIcon={() => (
@@ -67,18 +64,11 @@ export default class PlayerView extends React.Component {
                                     screen: states.saved
                                 })}
                         >
-                            {/*<TracksViewContainer
-                                        active={
-                                            this.state.screen === states.search
-                                        }
-                                        hidden={
-                                            this.state.screen !== states.search
-                                        }
-                                        searchString={this.state.searchString}
-                                        offlineMode={true}
-                                        onSearch={str =>
-                                            AudioPlayer.search(str, 'offline')}
-                                    />*/}
+                            <TracksViewContainer
+                                active={this.state.screen === states.saved}
+                                hidden={this.state.screen !== states.saved}
+                                source="offline"
+                            />
                         </Tab>
                     </Tabs>
                 </View>

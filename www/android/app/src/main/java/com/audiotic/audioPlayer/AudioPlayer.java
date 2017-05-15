@@ -20,6 +20,8 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     private static MediaPlayer player;
     private static String dataSource;
 
+    private boolean isPaused = false;
+
     AudioPlayer(ReactApplicationContext reactContext) {
         super(reactContext);
         if (player == null) {
@@ -67,6 +69,7 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     public void stop(Promise promise) {
         try {
             player.stop();
+            this.isPaused = false;
             promise.resolve(null);
         } catch (Exception e) {
             this.handleError(e, promise);
@@ -77,6 +80,7 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     public void pause(Promise promise) {
         try {
             player.pause();
+            this.isPaused = true;
             promise.resolve(null);
         } catch (Exception e) {
             this.handleError(e, promise);
@@ -88,6 +92,8 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
         //TODO: add a small go server that will run on the phone, we will stream through it
         //so we can both play the tracks and save them at the same time
         try {
+            this.isPaused = false;
+
             if (player.isPlaying() && dataSource.equals(urlOrname)) {
                 promise.resolve(null);
                 return;
@@ -147,7 +153,7 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCurrentPosition(Promise promise) {
         try {
-            if (!player.isPlaying()) {
+            if (!player.isPlaying() && !this.isPaused) {
                 promise.resolve(0);
                 return;
             }

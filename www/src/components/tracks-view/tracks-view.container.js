@@ -1,9 +1,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { TracksViewComponent } from './tracks-view.component';
-import { search, playPause } from './tracks-view.actions';
+import { search, playPause, updateData } from './tracks-view.actions';
+import offlineTracksManager
+    from '../../modules/offline-tracks/offline-tracks-manager.module';
 
 class TracksViewContainer extends React.Component {
+    async componentDidMount() {
+        const { source, updateData } = this.props;
+
+        if (source === 'offline') {
+            const updateOfflineData = async () => {
+                const offlineData = await offlineTracksManager.data();
+                updateData(offlineData, source);
+            };
+
+            this._onDataListener = offlineTracksManager.addListener(
+                'downloaded',
+                () => updateOfflineData()
+            );
+            updateOfflineData();
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._onDataListener) {
+            this._onDataListener.remove();
+        }
+    }
+
     render() {
         const {
             source,
@@ -25,9 +50,11 @@ class TracksViewContainer extends React.Component {
             case 'offline':
                 data = offlineData;
                 searching = offlineSearching;
+                break;
             case 'history':
                 data = historyData;
                 searching = historySearching;
+                break;
             default:
                 data = onlineData;
                 searching = onlineSearching;
@@ -62,7 +89,8 @@ const mapState = (state, ownProps) => ({
 
 const mapDispatch = dispatch => ({
     search: (str, source) => dispatch(search(str, source)),
-    playPause: track => dispatch(playPause(track))
+    playPause: track => dispatch(playPause(track)),
+    updateData: (data, source) => dispatch(updateData(data, source))
 });
 
 export default connect(mapState, mapDispatch)(TracksViewContainer);

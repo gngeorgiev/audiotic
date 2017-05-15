@@ -1,5 +1,8 @@
 import { playPause as playerPlayPauseAction } from '../player/player.actions';
 import { resolvers } from 'audiotic-core';
+import {
+    OfflineTracksResolver
+} from '../../modules/offline-tracks/offline-tracks-resolver.module';
 
 export const playPause = playerPlayPauseAction;
 
@@ -11,8 +14,15 @@ export const toggleSearching = (searching, source) => {
 };
 
 const allResolvers = Object.assign({}, resolvers);
-const offlineResolver = allResolvers.offline;
-delete allResolvers.offline;
+const offlineResolver = new OfflineTracksResolver();
+
+export const updateData = (data, source) => {
+    return {
+        type: 'TRACKS_DATA_CHANGED',
+        source,
+        data
+    };
+};
 
 export const search = (str, source) => {
     if (!source) {

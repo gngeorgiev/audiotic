@@ -126,7 +126,11 @@ export default class FullScreenPlayerComponent extends React.Component {
                             )}
                         </View>
                         <View style={{ flex: 1 }}>
-                            <PlayPauseButton style={styles.controlButton} />
+                            <PlayPauseButton
+                                playing={playing}
+                                style={styles.controlButton}
+                                onPress={() => onPlayPauseTap()}
+                            />
                         </View>
                         <View style={{ flex: 1 }}>
                             {this._renderControlButton('fast-forward', () =>

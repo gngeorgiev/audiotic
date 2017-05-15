@@ -15,13 +15,16 @@ import PlayerComponent from './player.component';
 import FullScreenPlayerComponent from './player-full-screen.component';
 
 class PlayerContainer extends React.Component {
+    //the position is in the state, not managed by redux due to it's constant updates, which cause performance hit
+    state = { position: 0 };
+
     componentDidMount() {
         this._trackEndListener = audioPlayer.addListener('end', () =>
             this.props.playNext()
         );
 
-        this._positionListener = audioPlayer.addListener('position', () =>
-            this.props.updatePosition()
+        this._positionListener = audioPlayer.addListener('position', position =>
+            this.setState({ position })
         );
     }
 
@@ -40,7 +43,8 @@ class PlayerContainer extends React.Component {
             playPrev,
             download
         } = this.props;
-        const { track, position, playing } = player;
+        const { track, playing } = player;
+        const { position } = this.state;
 
         return fullScreen
             ? <FullScreenPlayerComponent
