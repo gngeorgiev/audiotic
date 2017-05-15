@@ -12,7 +12,7 @@ const AudioPlayerNative = NativeModules.AudioPlayer;
 
 let _current = {
     default: true,
-    thumbnail: require('../res/music-player.png'),
+    thumbnail: require('../../res/music-player.png'),
     title: 'Nothing playing',
     length: 0
 };
@@ -79,22 +79,6 @@ class AudioPlayerModule extends EventEmitter {
         }
 
         return await this._resolvers[source].search(str);
-    }
-
-    secondsToTime(seconds = this.position) {
-        seconds = Math.round(seconds);
-        let minutesReadable = Math.round(seconds / 60);
-        let secondsReadable = Math.round(seconds % 60);
-
-        if (minutesReadable.toString().length === 1) {
-            minutesReadable = `0${minutesReadable}`;
-        }
-
-        if (secondsReadable.toString().length === 1) {
-            secondsReadable = `0${secondsReadable}`;
-        }
-
-        return `${minutesReadable}:${secondsReadable}`;
     }
 
     async playNextTrack() {

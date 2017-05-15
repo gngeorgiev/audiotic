@@ -147,6 +147,11 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCurrentPosition(Promise promise) {
         try {
+            if (!player.isPlaying()) {
+                promise.resolve(0);
+                return;
+            }
+
             int pos = player.getCurrentPosition();
             promise.resolve(pos);
         } catch (Exception e) {

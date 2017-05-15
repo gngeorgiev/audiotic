@@ -2,7 +2,7 @@ const defaultState = {
     player: {
         track: {
             default: true,
-            thumbnail: require('./res/music-player.png'),
+            thumbnail: require('../res/music-player.png'),
             title: 'Nothing playing',
             length: 0
         },

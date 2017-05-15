@@ -2,9 +2,11 @@ import React, { PropTypes } from 'react';
 import { View, Image, Text, TouchableHighlight, Keyboard } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 
-import { AudioPlayer } from '../../modules/AudioPlayer';
-import { TrackSlider } from './track-slider.element';
-import { PlayPauseButton } from '../../elements/PlayPauseButton.element';
+import { secondsToTime } from '../../utils/audio-player-utils';
+import { TrackSlider } from '../../dumb-components/track-slider.component';
+import {
+    PlayPauseButton
+} from '../../dumb-components/play-pause-button.component';
 
 export default class PlayerComponent extends React.Component {
     static propTypes = {
@@ -41,15 +43,8 @@ export default class PlayerComponent extends React.Component {
     }
 
     render() {
-        const {
-            player,
-            position,
-            playing,
-            track,
-            onPlayPauseTap,
-            onSeek
-        } = this.props;
         const { hide } = this.state;
+        const { position, playing, track, onPlayPauseTap, onSeek } = this.props;
 
         return hide
             ? <View />
@@ -83,13 +78,13 @@ export default class PlayerComponent extends React.Component {
                               <View style={styles.currentPlaylistContainer}>
                                   {/*TODO: Current playlist context*/}
                                   <Text style={styles.currentPlaylist}>
-                                      {AudioPlayer.secondsToTime(track.length)}
+                                      {secondsToTime(track.length)}
                                       {' '}
                                       /
                                       {' '}
                                       <Text style={{ color: '#00BAC1' }}>
                                           {' '}
-                                          {AudioPlayer.secondsToTime(position)}
+                                          {secondsToTime(position)}
                                       </Text>
                                   </Text>
                               </View>

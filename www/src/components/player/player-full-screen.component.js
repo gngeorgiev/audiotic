@@ -3,21 +3,30 @@ import { View, Button, Dimensions, Text, Image } from 'react-native';
 import { Icon, Avatar } from 'react-native-elements';
 import ActionButton from 'react-native-circular-action-menu';
 
-import { AudioPlayer } from '../modules/AudioPlayer';
-
-import { TrackSlider } from './player/track-slider.element';
-import { PlayPauseButton } from '../elements/PlayPauseButton.element';
+import { secondsToTime } from '../../utils/audio-player-utils';
+import { TrackSlider } from '../../dumb-components/track-slider.component';
+import {
+    PlayPauseButton
+} from '../../dumb-components/play-pause-button.component';
 
 const { width, height } = Dimensions.get('window');
 
-export class FullScreenPlayerComponent extends React.Component {
+export default class FullScreenPlayerComponent extends React.Component {
     static propTypes = {
-        onBackPress: PropTypes.func.isRequired
+        onPress: PropTypes.func,
+        track: PropTypes.object,
+        position: PropTypes.number,
+        playing: PropTypes.bool,
+        onPlayPauseTap: PropTypes.func,
+        onSeek: PropTypes.func,
+        onBack: PropTypes.func
     };
 
-    state = {
-        position: 0,
-        trackDownloaded: false
+    static defaultProps = {
+        onPress: () => {},
+        onPlayPauseTap: () => {},
+        onSeek: () => {},
+        onBack: () => {}
     };
 
     _renderButton(style, icon, onPress, color = '#fff') {
@@ -45,45 +54,27 @@ export class FullScreenPlayerComponent extends React.Component {
         );
     }
 
-    async _checkIfTrackIsDownloaded(track) {
-        const trackDownloaded = await AudioPlayer.isOffline(track);
-
-        this.setState({ trackDownloaded });
-    }
-
-    componentDidMount() {
-        this._positionListener = AudioPlayer.addListener('position', position =>
-            this.setState({ position })
-        );
-
-        this._playListener = AudioPlayer.addListener('play', track =>
-            this._checkIfTrackIsDownloaded(track)
-        );
-
-        if (AudioPlayer.playing) {
-            this._checkIfTrackIsDownloaded(AudioPlayer.current);
-        }
-    }
-
-    componentWillUnmount() {
-        this._positionListener.remove();
-        this._playListener.remove();
-    }
-
     render() {
-        const { current } = AudioPlayer;
-        const { position, trackDownloaded } = this.state;
+        const {
+            position,
+            playing,
+            track,
+            onPlayPauseTap,
+            onSeek,
+            trackDownloaded,
+            onBack
+        } = this.props;
 
         return (
             <View style={styles.fullScreenPlayer}>
                 <View style={styles.playerContainer}>
                     <View style={styles.playerToolbarContainer}>
                         {this._renderButton(styles.button, 'arrow-back', () =>
-                            this.props.onBackPress()
+                            onBack()
                         )}
                     </View>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{current.title}</Text>
+                        <Text style={styles.title}>{track.title}</Text>
                     </View>
                     <View style={styles.previewContainer}>
                         <Image
@@ -91,24 +82,24 @@ export class FullScreenPlayerComponent extends React.Component {
                             width={width * 0.75}
                             height={height * 0.45}
                             source={
-                                current.default
-                                    ? current.thumbnail
-                                    : { uri: current.thumbnail }
+                                track.default
+                                    ? track.thumbnail
+                                    : { uri: track.thumbnail }
                             }
                         />
 
                         <View style={styles.timeContainer}>
                             <Text style={{ color: '#fff' }}>
-                                {AudioPlayer.secondsToTime(current.length)}
+                                {secondsToTime(track.length)}
                             </Text>
                             <Text style={{ color: '#00BAC1' }}>
-                                {AudioPlayer.secondsToTime(position)}
+                                {secondsToTime(position)}
                             </Text>
                         </View>
                         <View style={styles.sliderContainer}>
                             <TrackSlider
                                 position={position}
-                                length={current.length}
+                                length={track.length}
                                 style={{ width: width * 0.95 }}
                                 onSeek={() => {}}
                             />
@@ -118,28 +109,22 @@ export class FullScreenPlayerComponent extends React.Component {
                             {this._renderButton(
                                 styles.button,
                                 'cloud-download',
-                                async () => {
-                                    await AudioPlayer.downloadTrack(current);
-                                    await this._checkIfTrackIsDownloaded(
-                                        current
-                                    );
-                                },
+                                async () => {},
                                 trackDownloaded ? '#f4424b' : '#fff'
                             )}
                         </View>
                     </View>
                     <View style={styles.controlContainer}>
                         <View style={{ flex: 1 }}>
-                            {this._renderControlButton('fast-rewind', () =>
-                                AudioPlayer.playPreviousTrack()
-                            )}
+                            {this._renderControlButton('fast-rewind', () => {})}
                         </View>
                         <View style={{ flex: 1 }}>
                             <PlayPauseButton style={styles.controlButton} />
                         </View>
                         <View style={{ flex: 1 }}>
-                            {this._renderControlButton('fast-forward', () =>
-                                AudioPlayer.playNextTrack()
+                            {this._renderControlButton(
+                                'fast-forward',
+                                () => {}
                             )}
                         </View>
                     </View>
