@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { ScrollView, View } from 'react-native';
 import { TrackListItem } from '../../dumb-components/track-list-item.component';
 import { List, SearchBar } from 'react-native-elements';
-import { OfflineTracksManager } from '../../modules/OfflineTracksManager';
 
 export class TracksViewComponent extends React.Component {
     static propTypes = {
@@ -20,7 +19,7 @@ export class TracksViewComponent extends React.Component {
     constructor() {
         super();
 
-        this.state = { text: '' };
+        this.state = { text: 'Martin Garrix' };
     }
 
     render() {

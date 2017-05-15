@@ -13,17 +13,18 @@ const { width, height } = Dimensions.get('window');
 
 export default class FullScreenPlayerComponent extends React.Component {
     static propTypes = {
-        onPress: PropTypes.func,
         track: PropTypes.object,
         position: PropTypes.number,
         playing: PropTypes.bool,
         onPlayPauseTap: PropTypes.func,
         onSeek: PropTypes.func,
-        onBack: PropTypes.func
+        onBack: PropTypes.func,
+        isTrackOffline: PropTypes.bool,
+        onForwardTap: PropTypes.func,
+        onBackwardTap: PropTypes.func
     };
 
     static defaultProps = {
-        onPress: () => {},
         onPlayPauseTap: () => {},
         onSeek: () => {},
         onBack: () => {}
@@ -61,8 +62,10 @@ export default class FullScreenPlayerComponent extends React.Component {
             track,
             onPlayPauseTap,
             onSeek,
-            trackDownloaded,
-            onBack
+            isTrackOffline,
+            onBack,
+            onForwardTap,
+            onBackwardTap
         } = this.props;
 
         return (
@@ -101,7 +104,7 @@ export default class FullScreenPlayerComponent extends React.Component {
                                 position={position}
                                 length={track.length}
                                 style={{ width: width * 0.95 }}
-                                onSeek={() => {}}
+                                onSeek={position => onSeek(position)}
                             />
                         </View>
                         <View style={styles.extraButtonsContainer}>
@@ -110,21 +113,22 @@ export default class FullScreenPlayerComponent extends React.Component {
                                 styles.button,
                                 'cloud-download',
                                 async () => {},
-                                trackDownloaded ? '#f4424b' : '#fff'
+                                isTrackOffline ? '#f4424b' : '#fff'
                             )}
                         </View>
                     </View>
                     <View style={styles.controlContainer}>
                         <View style={{ flex: 1 }}>
-                            {this._renderControlButton('fast-rewind', () => {})}
+                            {this._renderControlButton('fast-rewind', () =>
+                                onBackwardTap()
+                            )}
                         </View>
                         <View style={{ flex: 1 }}>
                             <PlayPauseButton style={styles.controlButton} />
                         </View>
                         <View style={{ flex: 1 }}>
-                            {this._renderControlButton(
-                                'fast-forward',
-                                () => {}
+                            {this._renderControlButton('fast-forward', () =>
+                                onForwardTap()
                             )}
                         </View>
                     </View>

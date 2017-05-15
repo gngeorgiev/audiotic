@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 
-import { AudioPlayer } from '../modules/AudioPlayer';
 import ActionButton from 'react-native-circular-action-menu';
 import { Icon } from 'react-native-elements';
 

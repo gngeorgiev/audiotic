@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 import EventEmitter from 'EventEmitter';
 import rnfs from 'react-native-fs';
 
-class OfflineTracksManagerModule extends EventEmitter {
+export class OfflineTracksManager extends EventEmitter {
     _indexKey = '@OfflineTracksIndex_';
     _localUrl = rnfs.DocumentDirectoryPath;
     _data = {};
@@ -82,29 +82,3 @@ class OfflineTracksManagerModule extends EventEmitter {
         this.emit('downloaded', offlineTrack);
     }
 }
-
-export class OfflineTracksResolver {
-    name = 'offline';
-
-    _tracksManager = new OfflineTracksManagerModule();
-
-    async resolve(id) {
-        return await this._tracksManager.getTrack({ id });
-    }
-
-    async search(str) {
-        if (!str) {
-            return await this._tracksManager.data();
-        }
-
-        const index = await this._tracksManager._getIndex();
-        return Object.keys(index)
-            .filter(id => {
-                const track = index[id];
-                return track.title.includes(str);
-            })
-            .map(id => index[id]);
-    }
-}
-
-export const OfflineTracksManager = new OfflineTracksManagerModule();

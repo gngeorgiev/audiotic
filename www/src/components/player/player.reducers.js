@@ -5,27 +5,22 @@ export const player = (state = defaultState.player, action) => {
         case 'PLAY_TRACK':
             return Object.assign({}, state, {
                 track: action.track,
-                playing: action.playing
+                playing: action.playing,
+                isOffline: action.isOffline
             });
         case 'PAUSE_TRACK':
-            return Object.assign({}, state, {
-                playing: action.playing
-            });
         case 'RESUME_TRACK':
             return Object.assign({}, state, {
                 playing: action.playing
             });
         case 'UPDATE_POSITION':
+        case 'SEEK_TRACK':
             return Object.assign({}, state, {
                 position: action.position
             });
         case 'LOADING_TRACK':
             return Object.assign({}, state, {
                 loadingId: action.loadingId
-            });
-        case 'SEEK_TRACK':
-            return Object.assign({}, state, {
-                position: action.position
             });
         default:
             return state;

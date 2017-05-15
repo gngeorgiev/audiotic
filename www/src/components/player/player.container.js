@@ -2,24 +2,42 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { updatePosition, playPause, seek } from './player.actions';
+import {
+    updatePosition,
+    playPause,
+    seek,
+    playNext,
+    playPrev
+} from './player.actions';
+import audioPlayer from '../../modules/audio-player/audio-player.module';
 import PlayerComponent from './player.component';
 import FullScreenPlayerComponent from './player-full-screen.component';
 
 class PlayerContainer extends React.Component {
     componentDidMount() {
-        this._positionInterval = setInterval(
-            () => this.props.updatePosition(),
-            1000
+        this._trackEndListener = audioPlayer.addListener('end', () =>
+            this.props.playNext()
+        );
+
+        this._positionListener = audioPlayer.addListener('position', () =>
+            this.props.updatePosition()
         );
     }
 
     componentWillUnmount() {
-        clearInterval(this._positionInterval);
+        this._trackEndListener.remove();
+        this._positionListener.remove();
     }
 
     render() {
-        const { player, onPlayPauseTap, onSeek, fullScreen } = this.props;
+        const {
+            player,
+            onPlayPauseTap,
+            onSeek,
+            fullScreen,
+            playNext,
+            playPrev
+        } = this.props;
         const { track, position, playing } = player;
 
         return fullScreen
@@ -27,9 +45,12 @@ class PlayerContainer extends React.Component {
                   track={track}
                   position={position}
                   playing={playing}
+                  isTrackOffline={player.isOffline}
                   onPlayPauseTap={() => onPlayPauseTap()}
                   onSeek={position => onSeek(position)}
                   onBack={() => Actions.pop()}
+                  onForwardTap={() => playNext()}
+                  onBackwardTap={() => playPrev()}
               />
             : <PlayerComponent
                   track={track}
@@ -50,7 +71,9 @@ const mapState = (state, props) => ({
 const mapDispatch = dispatch => ({
     onPlayPauseTap: track => dispatch(playPause(track)),
     onSeek: position => dispatch(seek(position)),
-    updatePosition: () => dispatch(updatePosition())
+    updatePosition: () => dispatch(updatePosition()),
+    playNext: () => dispatch(playNext()),
+    playPrev: () => dispatch(playPrev())
 });
 
 export default connect(mapState, mapDispatch)(PlayerContainer);

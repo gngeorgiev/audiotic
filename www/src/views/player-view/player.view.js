@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Tabs, Tab, Icon } from 'react-native-elements';
 
 import Player from '../../components/player/player.container';
-import { AudioPlayer } from '../../modules/AudioPlayer';
 import TracksViewContainer
     from '../../components/tracks-view/tracks-view.container';
 

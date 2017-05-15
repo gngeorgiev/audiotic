@@ -187,7 +187,10 @@ class YouTubeResolver extends BaseResolver {
                     f.url &&
                     !f.resolution &&
                     f.container !== 'webm'
-            ),
+            ) ||
+                info.formats.find(
+                    f => f.audioBitrate && f.url && f.container !== 'webm'
+                ),
             get url() {
                 return this.stream.url;
             },
@@ -196,7 +199,8 @@ class YouTubeResolver extends BaseResolver {
                     id: v.id,
                     title: v.title,
                     length: +v.length_seconds,
-                    thumbnail: this._getThumbnail(v.id)
+                    thumbnail: this._getThumbnail(v.id),
+                    source: this.name
                 };
             })
         };
