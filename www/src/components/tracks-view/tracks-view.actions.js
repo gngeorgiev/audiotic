@@ -26,7 +26,7 @@ export const search = (str, source) => {
 
     return async dispatch => {
         dispatch(toggleSearching(true, source));
-        const data = await trackResolver.search(str);
+        const data = await trackResolver.search(str, source);
         dispatch(toggleSearching(false, source));
 
         return dispatch({
