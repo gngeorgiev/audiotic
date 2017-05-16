@@ -6,7 +6,7 @@ class OfflineTracksManager extends EventEmitter {
     _indexKey = '';
     _localIndex = null;
     _data = null;
-    _dataHasNewItem = false; //lets save a few sorts of the data
+    _dataHasNewItem = true; //lets save a few sorts of the data
 
     constructor(indexKey, shouldSort) {
         super();

@@ -41,14 +41,14 @@ class TrackResolverModule {
         return !!await favoriteTracksResolver.resolve(id);
     }
 
-    async search(str) {
+    async search(str, source) {
         let resolversToUse = [];
 
         if (source === 'offline') {
             resolversToUse = [offlineTracksResolver];
         } else {
             resolversToUse = Object.keys(this._resolvers).map(
-                r => allResolvers[r]
+                r => this._resolvers[r]
             );
         }
 

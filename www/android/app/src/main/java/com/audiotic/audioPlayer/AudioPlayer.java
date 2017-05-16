@@ -10,15 +10,16 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-public class AudioPlayer extends ReactContextBaseJavaModule {
+public class AudioPlayer extends ReactContextBaseJavaModule implements LifecycleEventListener {
     private static final String TAG = "AudioPlayer";
 
     private static final String ON_TRACK_END = "ON_TRACK_END";
 
-    private static MediaPlayer player;
-    private static String dataSource;
+    private MediaPlayer player;
+    private String dataSource;
 
     private boolean isPaused = false;
 
@@ -27,6 +28,24 @@ public class AudioPlayer extends ReactContextBaseJavaModule {
         if (player == null) {
             player = this.createMediaPlayer();
         }
+
+        reactContext.addLifecycleEventListener(this);
+    }
+
+    @Override
+    public void onHostDestroy() {
+        this.player.stop();
+        this.player.release();
+    }
+
+    @Override
+    public void onHostResume() {
+        // Activity `onResume`
+    }
+
+    @Override
+    public void onHostPause() {
+        // Activity `onPause`
     }
 
     private MediaPlayer createMediaPlayer() {
