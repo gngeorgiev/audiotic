@@ -20,9 +20,11 @@ export default class FullScreenPlayerComponent extends React.Component {
         onSeek: PropTypes.func,
         onBack: PropTypes.func,
         isTrackOffline: PropTypes.bool,
+        isTrackFavorite: PropTypes.bool,
         onForwardTap: PropTypes.func,
         onBackwardTap: PropTypes.func,
-        onDownloadTap: PropTypes.func
+        onDownloadTap: PropTypes.func,
+        onFavoriteTap: PropTypes.func
     };
 
     static defaultProps = {
@@ -64,10 +66,12 @@ export default class FullScreenPlayerComponent extends React.Component {
             onPlayPauseTap,
             onSeek,
             isTrackOffline,
+            isTrackFavorite,
             onBack,
             onForwardTap,
             onBackwardTap,
-            onDownloadTap
+            onDownloadTap,
+            onFavoriteTap
         } = this.props;
 
         return (
@@ -79,7 +83,9 @@ export default class FullScreenPlayerComponent extends React.Component {
                         )}
                     </View>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{track.title}</Text>
+                        <Text numberOfLines={2} style={styles.title}>
+                            {track.title}
+                        </Text>
                     </View>
                     <View style={styles.previewContainer}>
                         <Image
@@ -110,7 +116,12 @@ export default class FullScreenPlayerComponent extends React.Component {
                             />
                         </View>
                         <View style={styles.extraButtonsContainer}>
-                            {this._renderButton(styles.button, 'favorite')}
+                            {this._renderButton(
+                                styles.button,
+                                'favorite',
+                                () => onFavoriteTap(track),
+                                isTrackFavorite ? '#f4424b' : '#fff'
+                            )}
                             {this._renderButton(
                                 styles.button,
                                 'cloud-download',
@@ -168,7 +179,9 @@ const styles = {
     title: {
         color: '#fff',
         textAlign: 'center',
-        fontSize: 25
+        fontSize: 25,
+        paddingLeft: 10,
+        paddingRight: 10
     },
     previewContainer: {
         flex: 3,

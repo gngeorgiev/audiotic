@@ -1,8 +1,24 @@
 import audioPlayer from '../../modules/audio-player/audio-player.module';
 
 import trackResolver from '../../modules/track-resolver/track-resolver.module';
-import offlineTracksManager
-    from '../../modules/offline-tracks/offline-tracks-manager.module';
+import {
+    offlineTracksManager,
+    historyTracksManager,
+    favoriteTracksManager
+} from '../../modules/offline-tracks/offline-tracks-manager.module';
+
+import {
+    offlineTracksResolver
+} from '../../modules/offline-tracks/offline-tracks-resolver.module';
+
+const toggleLoadingTrack = (id, fn) => {
+    //currently the loadingId is not being used, but it will certainly be useful in the future, we are not awaiting the promise since we don't need to wait for it
+    return async dispatch => {
+        dispatch(toggleTrackLoading(id));
+        await fn();
+        dispatch(toggleTrackLoading(false));
+    };
+};
 
 export const toggleTrackLoading = loadingId => {
     return {
@@ -13,17 +29,18 @@ export const toggleTrackLoading = loadingId => {
 
 export const play = track => {
     return async dispatch => {
-        await dispatch(toggleTrackLoading(track.id));
-        await audioPlayer.play(track);
-        await dispatch(toggleTrackLoading(null));
+        toggleLoadingTrack(track.id, () => audioPlayer.play(track))(dispatch);
+        historyTracksManager.addTrack(track);
 
         const isOffline = await trackResolver.isOffline(track);
+        const isFavorite = await trackResolver.isFavorite(track);
 
         return dispatch({
             type: 'PLAY_TRACK',
             playing: true,
             track,
-            isOffline
+            isOffline,
+            isFavorite
         });
     };
 };
@@ -49,12 +66,35 @@ export const playNext = () => {
 
 export const download = track => {
     return async dispatch => {
-        const offlineTrack = await offlineTracksManager.saveTrack(track);
+        const offlineTrack = await offlineTracksResolver.saveTrack(track);
 
         return dispatch({
             type: 'DOWNLOAD_TRACK',
             track: offlineTrack,
             isOffline: true
+        });
+    };
+};
+
+export const favorite = track => {
+    return async dispatch => {
+        const isFavorite = await trackResolver.isFavorite(track);
+        if (isFavorite) {
+            await favoriteTracksManager.removeTrack(track);
+
+            return dispatch({
+                type: 'FAVORITE_TRACK',
+                isFavorite: false,
+                track
+            });
+        }
+
+        await favoriteTracksManager.addTrack(track);
+
+        return dispatch({
+            type: 'FAVORITE_TRACK',
+            isFavorite: true,
+            track
         });
     };
 };

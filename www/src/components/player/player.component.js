@@ -71,12 +71,14 @@ export default class PlayerComponent extends React.Component {
                       <View style={styles.playContainer}>
                           <View style={styles.playTextContainer}>
                               <View style={styles.currentTrackContainer}>
-                                  <Text style={styles.currentTrack}>
+                                  <Text
+                                      numberOfLines={2}
+                                      style={styles.currentTrack}
+                                  >
                                       {track.title}
                                   </Text>
                               </View>
                               <View style={styles.currentPlaylistContainer}>
-                                  {/*TODO: Current playlist context*/}
                                   <Text style={styles.currentPlaylist}>
                                       {secondsToTime(track.length)}
                                       {' '}
@@ -122,6 +124,7 @@ const styles = {
         flexDirection: 'column'
     },
     currentTrackContainer: {
+        flex: 0.5,
         padding: 10
     },
     currentTrack: {
@@ -130,6 +133,7 @@ const styles = {
         color: '#fafafa'
     },
     currentPlaylistContainer: {
+        flex: 0.5,
         padding: 10
     },
     currentPlaylist: {

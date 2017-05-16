@@ -1,20 +1,15 @@
 import { playPause as playerPlayPauseAction } from '../player/player.actions';
-import { resolvers } from 'audiotic-core';
-import {
-    OfflineTracksResolver
-} from '../../modules/offline-tracks/offline-tracks-resolver.module';
+import trackResolver from '../../modules/track-resolver/track-resolver.module';
 
 export const playPause = playerPlayPauseAction;
 
 export const toggleSearching = (searching, source) => {
     return {
         type: 'IS_SEARCHING_TRACKS',
-        [`${source}Searching`]: searching //offlineSearching, onlineSearching, historySearching
+        //offlineSearching, onlineSearching, historySearching
+        [`${source}Searching`]: searching
     };
 };
-
-const allResolvers = Object.assign({}, resolvers);
-const offlineResolver = new OfflineTracksResolver();
 
 export const updateData = (data, source) => {
     return {
@@ -30,25 +25,9 @@ export const search = (str, source) => {
     }
 
     return async dispatch => {
-        await dispatch(toggleSearching(true, source));
-
-        let resolversToUse = [];
-
-        if (source === 'offline') {
-            resolversToUse = [offlineResolver];
-        } else {
-            resolversToUse = Object.keys(allResolvers).map(
-                r => allResolvers[r]
-            );
-        }
-
-        const searchResults = await Promise.all(
-            resolversToUse.map(r => r.search(str))
-        );
-
-        const data = searchResults.reduce((acc, val) => acc.concat(val));
-
-        await dispatch(toggleSearching(false, source));
+        dispatch(toggleSearching(true, source));
+        const data = await trackResolver.search(str);
+        dispatch(toggleSearching(false, source));
 
         return dispatch({
             type: 'SEARCH_TRACKS',

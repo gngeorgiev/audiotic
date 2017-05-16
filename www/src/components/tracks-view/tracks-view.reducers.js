@@ -34,3 +34,15 @@ export const onlineData = (state = [], action) => {
 
     return state;
 };
+
+export const favoriteData = (state = [], action) => {
+    if (
+        (action.type === 'SEARCH_TRACKS' ||
+            action.type === 'TRACKS_DATA_CHANGED') &&
+        action.source === 'favorite'
+    ) {
+        return action.data;
+    }
+
+    return state;
+};

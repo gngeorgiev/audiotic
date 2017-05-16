@@ -2,25 +2,37 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { TracksViewComponent } from './tracks-view.component';
 import { search, playPause, updateData } from './tracks-view.actions';
-import offlineTracksManager
-    from '../../modules/offline-tracks/offline-tracks-manager.module';
+import {
+    offlineTracksManager,
+    historyTracksManager,
+    favoriteTracksManager
+} from '../../modules/offline-tracks/offline-tracks-manager.module';
 
 class TracksViewContainer extends React.Component {
     async componentDidMount() {
         const { source, updateData } = this.props;
 
+        let manager;
+        const updateOfflineData = async manager => {
+            const offlineData = await manager.data();
+            updateData(offlineData, source);
+        };
         if (source === 'offline') {
-            const updateOfflineData = async () => {
-                const offlineData = await offlineTracksManager.data();
-                updateData(offlineData, source);
-            };
-
-            this._onDataListener = offlineTracksManager.addListener(
-                'downloaded',
-                () => updateOfflineData()
-            );
-            updateOfflineData();
+            manager = offlineTracksManager;
+        } else if (source === 'history') {
+            manager = historyTracksManager;
+        } else if (source === 'favorite') {
+            manager = favoriteTracksManager;
         }
+
+        if (!manager) {
+            return;
+        }
+
+        this._onDataListener = manager.addListener('change', () =>
+            updateOfflineData(manager)
+        );
+        updateOfflineData(manager);
     }
 
     componentWillUnmount() {
@@ -35,9 +47,13 @@ class TracksViewContainer extends React.Component {
             offlineData,
             historyData,
             onlineData,
+            favoriteData,
+
             offlineSearching,
             historySearching,
             onlineSearching,
+            favoriteSearching,
+
             search,
             playPause,
             player
@@ -54,6 +70,10 @@ class TracksViewContainer extends React.Component {
             case 'history':
                 data = historyData;
                 searching = historySearching;
+                break;
+            case 'favorite':
+                data = favoriteData;
+                searching = favoriteSearching;
                 break;
             default:
                 data = onlineData;
@@ -81,10 +101,12 @@ const mapState = (state, ownProps) => ({
     offlineData: state.offlineData,
     onlineData: state.onlineData,
     historyData: state.historyData,
+    favoriteData: state.favoriteData,
 
     offlineSearching: state.offlineSearching,
     onlineSearching: state.onlineSearching,
-    historySearching: state.historySearching
+    historySearching: state.historySearching,
+    favoriteSearching: state.favoriteSearching
 });
 
 const mapDispatch = dispatch => ({

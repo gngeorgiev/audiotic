@@ -8,6 +8,8 @@ import PlayerView from './views/player-view/player.view';
 import FullScreenPlayerView
     from './views/full-screen-player-view/full-screen-player-view';
 
+const dev = !!__DEV__;
+
 export default class App extends React.Component {
     async componentWillUnmount() {
         await AudioPlayer.stop();
@@ -16,7 +18,7 @@ export default class App extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <Router>
+                <Router duration={dev ? 0 : 300}>
                     <Scene key="root" hideNavBar={true}>
                         <Scene key="player" component={PlayerView} />
                         <Scene

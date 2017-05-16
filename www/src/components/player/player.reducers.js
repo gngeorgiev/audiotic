@@ -6,7 +6,8 @@ export const player = (state = defaultState.player, action) => {
             return Object.assign({}, state, {
                 track: action.track,
                 playing: action.playing,
-                isOffline: action.isOffline
+                isOffline: action.isOffline,
+                isFavorite: action.isFavorite
             });
         case 'PAUSE_TRACK':
         case 'RESUME_TRACK':
@@ -26,6 +27,11 @@ export const player = (state = defaultState.player, action) => {
             return Object.assign({}, state, {
                 track: action.track,
                 isOffline: action.isOffline
+            });
+        case 'FAVORITE_TRACK':
+            return Object.assign({}, state, {
+                track: action.track,
+                isFavorite: action.isFavorite
             });
         default:
             return state;

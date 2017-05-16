@@ -9,13 +9,37 @@ import TracksViewContainer
 const states = {
     search: 'search',
     history: 'history',
-    saved: 'save'
+    saved: 'save',
+    favorite: 'favorite'
 };
 
 export default class PlayerView extends React.Component {
     state = {
         screen: states.search
     };
+
+    _renderTab(stateName, source) {
+        return (
+            <Tab
+                key={stateName}
+                selected={this.state.screen === stateName}
+                renderIcon={() => <Icon name={stateName} />}
+                renderSelectedIcon={() => (
+                    <Icon name={stateName} color={'#6296f9'} />
+                )}
+                onPress={() =>
+                    this.setState({
+                        screen: stateName
+                    })}
+            >
+                <TracksViewContainer
+                    active={this.state.screen === stateName}
+                    hidden={this.state.screen !== stateName}
+                    source={source}
+                />
+            </Tab>
+        );
+    }
 
     render() {
         return (
@@ -24,52 +48,26 @@ export default class PlayerView extends React.Component {
 
                 <View style={{ flex: 2 }}>
                     <Tabs>
-                        <Tab
-                            selected={this.state.screen === states.search}
-                            renderIcon={() => <Icon name={states.search} />}
-                            renderSelectedIcon={() => (
-                                <Icon name={states.search} color={'#6296f9'} />
-                            )}
-                            onPress={() =>
-                                this.setState({
-                                    screen: states.search
-                                })}
-                        >
-                            <TracksViewContainer
-                                active={this.state.screen === states.search}
-                                hidden={this.state.screen !== states.search}
-                                source="online"
-                            />
-                        </Tab>
-                        <Tab
-                            selected={this.state.screen === states.history}
-                            renderIcon={() => <Icon name={states.history} />}
-                            renderSelectedIcon={() => (
-                                <Icon name={states.history} color={'#6296f9'} />
-                            )}
-                            onPress={() =>
-                                this.setState({
-                                    screen: states.history
-                                })}
-                        />
-
-                        <Tab
-                            selected={this.state.screen === states.saved}
-                            renderIcon={() => <Icon name={states.saved} />}
-                            renderSelectedIcon={() => (
-                                <Icon name={states.saved} color={'#6296f9'} />
-                            )}
-                            onPress={() =>
-                                this.setState({
-                                    screen: states.saved
-                                })}
-                        >
-                            <TracksViewContainer
-                                active={this.state.screen === states.saved}
-                                hidden={this.state.screen !== states.saved}
-                                source="offline"
-                            />
-                        </Tab>
+                        {[
+                            {
+                                state: states.search,
+                                source: 'online'
+                            },
+                            {
+                                state: states.history,
+                                source: 'history'
+                            },
+                            {
+                                state: states.favorite,
+                                source: 'favorite'
+                            },
+                            {
+                                state: states.saved,
+                                source: 'offline'
+                            }
+                        ].map(({ state, source }) =>
+                            this._renderTab(state, source)
+                        )}
                     </Tabs>
                 </View>
             </View>

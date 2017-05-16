@@ -1,23 +1,25 @@
 import { resolvers } from 'audiotic-core';
 
 import {
-    OfflineTracksResolver
+    offlineTracksResolver,
+    favoriteTracksResolver
 } from '../offline-tracks/offline-tracks-resolver.module';
 
+//TODO: custom resolvers in audiotic-core and all this logic or a big part of it
+//should be in core
 class TrackResolverModule {
     _resolvers;
-    _offlineResolver;
 
     constructor() {
         this._resolvers = Object.assign({}, resolvers);
-
-        this._offlineResolver = new OfflineTracksResolver();
     }
 
-    async resolve({ id, source }) {
-        const offlineTrack = await this._offlineResolver.resolve(id);
-        if (offlineTrack) {
-            return offlineTrack;
+    async resolve({ id, source }, checkOffline = true) {
+        if (checkOffline) {
+            const offlineTrack = await offlineTracksResolver.resolve(id);
+            if (offlineTrack) {
+                return offlineTrack;
+            }
         }
 
         return await this._resolvers[source].resolve(id);
@@ -28,7 +30,34 @@ class TrackResolverModule {
             return true;
         }
 
-        return !!await this._offlineResolver.resolve(id);
+        return !!await offlineTracksResolver.resolve(id);
+    }
+
+    async isFavorite({ id, source }) {
+        if (source === 'favorite') {
+            return true;
+        }
+
+        return !!await favoriteTracksResolver.resolve(id);
+    }
+
+    async search(str) {
+        let resolversToUse = [];
+
+        if (source === 'offline') {
+            resolversToUse = [offlineTracksResolver];
+        } else {
+            resolversToUse = Object.keys(this._resolvers).map(
+                r => allResolvers[r]
+            );
+        }
+
+        const searchResults = await Promise.all(
+            resolversToUse.map(r => r.search(str))
+        );
+
+        const data = searchResults.reduce((acc, val) => acc.concat(val));
+        return data;
     }
 }
 
