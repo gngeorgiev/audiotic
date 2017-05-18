@@ -45,16 +45,12 @@ class OfflineTracksManager extends EventEmitter {
         index[track.id] = track;
         await AsyncStorage.setItem(this._indexKey, JSON.stringify(index));
 
-        if (!this._localIndex || !this._data) {
-            //lets refresh the data if it's not yet updated
-            //in theory this shouldn't happen
-            await this.data();
-        } else {
-            //updating the local index and data so they can be more performant
-            this._localIndex[track.id] = track;
-            this._data.unshift(track);
-            this._dataHasNewItem = true;
-        }
+        await this._ensureLocalCache();
+
+        //updating the local index and data so they can be more performant
+        this._localIndex[track.id] = track;
+        this._data.unshift(track);
+        this._dataHasNewItem = true;
 
         this.emit('change', {
             type: 'new',
@@ -78,6 +74,8 @@ class OfflineTracksManager extends EventEmitter {
         delete index[id];
         await AsyncStorage.setItem(this._indexKey, JSON.stringify(index));
 
+        await this._ensureLocalCache();
+
         delete this._localIndex[id];
         this._data = this._data.filter(t => t.id !== id);
         this._dataHasNewItem = true;
@@ -86,6 +84,12 @@ class OfflineTracksManager extends EventEmitter {
             type: 'remove',
             track
         });
+    }
+
+    async _ensureLocalCache() {
+        if (!this._localIndex || !this._data) {
+            await this.data();
+        }
     }
 
     async data() {

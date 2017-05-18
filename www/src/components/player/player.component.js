@@ -83,7 +83,9 @@ export default class PlayerComponent extends React.Component {
                                           {secondsToTime(position)}
                                       </Text>
                                       {' / '}
-                                      {secondsToTime(track.length)}
+                                      <Text style={{ color: '#eee' }}>
+                                          {secondsToTime(track.length)}
+                                      </Text>
                                   </Text>
                               </View>
                           </View>
@@ -125,7 +127,7 @@ const styles = {
     currentTrack: {
         fontSize: 18,
         fontWeight: '600',
-        color: '#fafafa'
+        color: '#eee'
     },
     currentPlaylistContainer: {
         flex: 0.5,

@@ -27,7 +27,8 @@ export const onlineData = (state = [], action) => {
         (action.type === 'SEARCH_TRACKS' ||
             action.type === 'TRACKS_DATA_CHANGED') &&
         action.source !== 'history' &&
-        action.source !== 'offline'
+        action.source !== 'offline' &&
+        action.source !== 'favorite'
     ) {
         return action.data;
     }
