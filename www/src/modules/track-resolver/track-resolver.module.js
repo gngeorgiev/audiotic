@@ -2,7 +2,8 @@ import { resolvers } from 'audiotic-core';
 
 import {
     offlineTracksResolver,
-    favoriteTracksResolver
+    favoriteTracksResolver,
+    historyTracksResolver
 } from '../offline-tracks/offline-tracks-resolver.module';
 
 //TODO: custom resolvers in audiotic-core and all this logic or a big part of it
@@ -46,6 +47,10 @@ class TrackResolverModule {
 
         if (source === 'offline') {
             resolversToUse = [offlineTracksResolver];
+        } else if (source === 'favorite') {
+            resolversToUse = [favoriteTracksResolver];
+        } else if (source === 'history') {
+            resolversToUse = [historyTracksResolver];
         } else {
             resolversToUse = Object.keys(this._resolvers).map(
                 r => this._resolvers[r]

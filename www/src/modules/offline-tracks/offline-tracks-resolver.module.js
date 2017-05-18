@@ -1,6 +1,7 @@
 import {
     offlineTracksManager,
-    favoriteTracksManager
+    favoriteTracksManager,
+    historyTracksManager
 } from './offline-tracks-manager.module';
 import rnfs from 'react-native-fs';
 
@@ -19,17 +20,13 @@ class TracksResolver {
     }
 
     async search(str) {
+        const data = await this.manager.data();
         if (!str) {
-            return await this.manager.data();
+            return data;
         }
 
-        const index = await this.manager.getIndex();
-        return Object.keys(index)
-            .filter(id => {
-                const track = index[id];
-                return track.title.includes(str);
-            })
-            .map(id => index[id]);
+        str = str.toLowerCase();
+        return data.filter(track => track.title.toLowerCase().includes(str));
     }
 }
 
@@ -69,6 +66,14 @@ class FavoriteTracksResolver extends TracksResolver {
     }
 }
 
+class HistoryTracksResolver extends TracksResolver {
+    constructor() {
+        super('history', historyTracksManager);
+    }
+}
+
 export const offlineTracksResolver = new OfflineTracksResolver();
 
 export const favoriteTracksResolver = new FavoriteTracksResolver();
+
+export const historyTracksResolver = new HistoryTracksResolver();

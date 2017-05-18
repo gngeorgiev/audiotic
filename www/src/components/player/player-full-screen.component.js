@@ -51,9 +51,9 @@ export default class FullScreenPlayerComponent extends React.Component {
         return (
             <ActionButton
                 size={60}
-                icon={<Icon name={iconName} color="#6B6B6B" />}
+                icon={<Icon name={iconName} color="#E0E0E0" />}
                 onPress={() => action()}
-                buttonColor="#272929"
+                buttonColor="#424242"
             />
         );
     }
@@ -90,8 +90,8 @@ export default class FullScreenPlayerComponent extends React.Component {
                     <View style={styles.previewContainer}>
                         <Image
                             style={styles.previewAvatar}
-                            width={width * 0.75}
-                            height={height * 0.45}
+                            width={width * 0.8}
+                            height={height * 0.4}
                             source={
                                 track.default
                                     ? track.thumbnail
@@ -159,7 +159,7 @@ const styles = {
     fullScreenPlayer: {
         width: width,
         height: height,
-        backgroundColor: '#000',
+        backgroundColor: '#212121',
         flex: 1
     },
     playerContainer: {
@@ -188,7 +188,9 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center'
     },
-    previewAvatar: {},
+    previewAvatar: {
+        resizeMode: 'contain'
+    },
     extraButtonsContainer: {
         flex: 0.5,
         flexDirection: 'row',

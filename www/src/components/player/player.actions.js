@@ -1,3 +1,5 @@
+import { Actions } from 'react-native-router-flux';
+
 import audioPlayer from '../../modules/audio-player/audio-player.module';
 
 import trackResolver from '../../modules/track-resolver/track-resolver.module';
@@ -154,7 +156,8 @@ export const playPause = newTrack => {
             return dispatch(pause());
         } else {
             const trackToPlay = await trackResolver.resolve(newTrack);
-            return dispatch(play(trackToPlay));
+            await dispatch(play(trackToPlay));
+            Actions.fullScreenPlayer();
         }
     };
 };

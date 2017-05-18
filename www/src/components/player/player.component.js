@@ -49,7 +49,7 @@ export default class PlayerComponent extends React.Component {
         return hide
             ? <View />
             : <TouchableHighlight
-                  style={{ flex: 1 }}
+                  style={{ flex: 0.5 }}
                   onPress={() => this.props.onPress()}
               >
                   <Image
@@ -60,7 +60,6 @@ export default class PlayerComponent extends React.Component {
                       }
                       style={styles.thumbnail}
                   >
-                      <View style={styles.thumbnailContainer} />
                       <View style={styles.progressContainer}>
                           <TrackSlider
                               position={position}
@@ -80,14 +79,11 @@ export default class PlayerComponent extends React.Component {
                               </View>
                               <View style={styles.currentPlaylistContainer}>
                                   <Text style={styles.currentPlaylist}>
-                                      {secondsToTime(track.length)}
-                                      {' '}
-                                      /
-                                      {' '}
                                       <Text style={{ color: '#00BAC1' }}>
-                                          {' '}
                                           {secondsToTime(position)}
                                       </Text>
+                                      {' / '}
+                                      {secondsToTime(track.length)}
                                   </Text>
                               </View>
                           </View>
@@ -116,8 +112,7 @@ const styles = {
     },
     playContainer: {
         flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'rgba(71, 77, 86, 0.8)'
+        flexDirection: 'row'
     },
     playTextContainer: {
         flex: 0.8,

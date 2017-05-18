@@ -24,7 +24,7 @@ export class TrackListItem extends React.Component {
         const thisIsPlaying = currentTrack && currentTrack.id === track.id;
 
         let iconName;
-        if (selected && !playingTrack) {
+        if (selected && !thisIsPlaying) {
             iconName = 'cached';
         } else {
             iconName = thisIsPlaying && playingTrack ? 'pause' : 'play-arrow';
