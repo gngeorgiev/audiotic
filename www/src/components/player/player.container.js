@@ -57,7 +57,6 @@ class PlayerContainer extends React.Component {
                   isTrackFavorite={player.isFavorite}
                   onPlayPauseTap={() => onPlayPauseTap()}
                   onSeek={position => onSeek(position)}
-                  onBack={() => Actions.pop()}
                   onForwardTap={() => playNext()}
                   onBackwardTap={() => playPrev()}
                   onDownloadTap={track => download(track)}

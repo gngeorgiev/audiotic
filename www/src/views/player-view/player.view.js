@@ -44,32 +44,13 @@ export default class PlayerView extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Player />
+                <TracksViewContainer
+                    active={true}
+                    hidden={false}
+                    source={'online'}
+                />
 
-                <View style={{ flex: 2 }}>
-                    <Tabs>
-                        {[
-                            {
-                                state: states.search,
-                                source: 'online'
-                            },
-                            {
-                                state: states.history,
-                                source: 'history'
-                            },
-                            {
-                                state: states.favorite,
-                                source: 'favorite'
-                            },
-                            {
-                                state: states.saved,
-                                source: 'offline'
-                            }
-                        ].map(({ state, source }) =>
-                            this._renderTab(state, source)
-                        )}
-                    </Tabs>
-                </View>
+                <Player />
             </View>
         );
     }

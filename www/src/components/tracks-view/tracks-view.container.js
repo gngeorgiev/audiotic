@@ -56,7 +56,9 @@ class TracksViewContainer extends React.Component {
 
             search,
             playPause,
-            player
+            player,
+
+            style
         } = this.props;
 
         let data;
@@ -82,6 +84,7 @@ class TracksViewContainer extends React.Component {
 
         return (
             <TracksViewComponent
+                style={style}
                 source={source}
                 data={data}
                 searching={searching}
@@ -96,6 +99,7 @@ class TracksViewContainer extends React.Component {
 
 const mapState = (state, ownProps) => ({
     source: ownProps.source,
+    style: ownProps.style,
     player: state.player,
 
     offlineData: state.offlineData,

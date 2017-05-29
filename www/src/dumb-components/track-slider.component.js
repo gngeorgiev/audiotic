@@ -19,7 +19,8 @@ export class TrackSlider extends React.Component {
         return (
             <Slider
                 thumbTouchSize={{ width: 130, height: 150 }}
-                trackStyle={{ ...style, ...styles.progress }}
+                trackStyle={{ ...styles.progress, ...style }}
+                containerStyle={{ height: 5 }}
                 value={position}
                 minimumValue={0}
                 maximumValue={length}

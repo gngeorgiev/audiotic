@@ -30,19 +30,13 @@ export class TracksViewComponent extends React.Component {
             searching,
             onTrackSelected,
             playingTrack,
-            currentTrack
+            currentTrack,
+            style
         } = this.props;
 
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <ScrollView>
-                    <SearchBar
-                        placeholder="e.g. Martin Garrix"
-                        lightTheme={true}
-                        showLoadingIcon={searching}
-                        onChangeText={text => this.setState({ text })}
-                        onSubmitEditing={() => onSearch(text)}
-                    />
                     <List
                         containerStyle={{
                             borderTopWidth: 0,

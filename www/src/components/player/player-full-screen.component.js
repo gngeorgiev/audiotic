@@ -33,6 +33,8 @@ export default class FullScreenPlayerComponent extends React.Component {
         onBack: () => {}
     };
 
+    state = { downloading: false };
+
     _renderButton(style, icon, onPress, color = '#fff') {
         return (
             <Icon
@@ -67,21 +69,21 @@ export default class FullScreenPlayerComponent extends React.Component {
             onSeek,
             isTrackOffline,
             isTrackFavorite,
-            onBack,
             onForwardTap,
             onBackwardTap,
             onDownloadTap,
             onFavoriteTap
         } = this.props;
 
+        const { downloading } = this.state;
+
+        if (isTrackOffline && downloading) {
+            setTimeout(() => this.setState({ downloading: false }));
+        }
+
         return (
             <View style={styles.fullScreenPlayer}>
                 <View style={styles.playerContainer}>
-                    <View style={styles.playerToolbarContainer}>
-                        {this._renderButton(styles.button, 'arrow-back', () =>
-                            onBack()
-                        )}
-                    </View>
                     <View style={styles.titleContainer}>
                         <Text numberOfLines={2} style={styles.title}>
                             {track.title}
@@ -125,7 +127,10 @@ export default class FullScreenPlayerComponent extends React.Component {
                             {this._renderButton(
                                 styles.button,
                                 'cloud-download',
-                                () => onDownloadTap(track),
+                                () => {
+                                    this.setState({ downloading: true });
+                                    onDownloadTap(track);
+                                },
                                 isTrackOffline ? '#f4424b' : '#fff'
                             )}
                         </View>
@@ -164,10 +169,6 @@ const styles = {
     },
     playerContainer: {
         flex: 1
-    },
-    playerToolbarContainer: {
-        flex: 0.5,
-        alignItems: 'flex-start'
     },
     button: {
         padding: 10,
