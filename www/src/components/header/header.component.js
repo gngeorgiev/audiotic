@@ -1,17 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
-
 import { Toolbar } from 'react-native-material-ui';
 
 export default class Header extends React.Component {
+    state = { text: '' };
+
     render() {
         const {
             title,
             searchable,
             leftElement = 'menu',
             onLeftElementPress = () => {},
-            transparent
+            transparent,
+            search
         } = this.props;
+
+        const { text } = this.state;
 
         return (
             <View
@@ -43,7 +47,8 @@ export default class Header extends React.Component {
                             ? {
                                   autoFocus: true,
                                   placeholder: 'Search music',
-                                  onSearchPressed: () => {}
+                                  onChangeText: text => this.setState({ text }),
+                                  onSubmitEditing: () => search(text)
                               }
                             : null
                     }

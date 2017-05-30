@@ -9,7 +9,7 @@ import store from './store';
 import PlayerView from './views/player-view/player.view';
 import FullScreenPlayerView
     from './views/full-screen-player-view/full-screen-player-view';
-import Header from './views/header';
+import Header from './components/header/header.container';
 
 const dev = !!__DEV__;
 
@@ -33,6 +33,7 @@ export default class App extends React.Component {
                                 title="Music"
                                 searchable={true}
                                 component={PlayerView}
+                                source="online"
                             />
                             <Scene
                                 key="fullScreenPlayer"

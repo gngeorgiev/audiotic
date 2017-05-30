@@ -5,27 +5,17 @@ import { List, SearchBar } from 'react-native-elements';
 
 export class TracksViewComponent extends React.Component {
     static propTypes = {
-        onSearch: PropTypes.func,
         onTrackSelected: PropTypes.func,
         searching: PropTypes.bool
     };
 
     static defaultProps = {
-        onSearch: () => {},
         onTrackSelected: () => {},
         searching: false
     };
 
-    constructor() {
-        super();
-
-        this.state = { text: '' };
-    }
-
     render() {
-        const { text } = this.state;
         const {
-            onSearch,
             data,
             searching,
             onTrackSelected,

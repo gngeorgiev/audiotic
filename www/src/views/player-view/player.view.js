@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
 import { Tabs, Tab, Icon } from 'react-native-elements';
 
@@ -13,40 +14,45 @@ const states = {
     favorite: 'favorite'
 };
 
-export default class PlayerView extends React.Component {
+class PlayerView extends React.Component {
     state = {
         screen: states.search
     };
 
-    _renderTab(stateName, source) {
-        return (
-            <Tab
-                key={stateName}
-                selected={this.state.screen === stateName}
-                renderIcon={() => <Icon name={stateName} />}
-                renderSelectedIcon={() => (
-                    <Icon name={stateName} color={'#6296f9'} />
-                )}
-                onPress={() =>
-                    this.setState({
-                        screen: stateName
-                    })}
-            >
-                <TracksViewContainer
-                    active={this.state.screen === stateName}
-                    hidden={this.state.screen !== stateName}
-                    source={source}
-                />
-            </Tab>
-        );
-    }
-
     render() {
+        const {
+            offlineData,
+            historyData,
+            favoriteData,
+            onlineData,
+
+            source
+        } = this.props;
+
+        let data;
+
+        switch (source) {
+            case 'offline':
+                data = offlineData;
+                break;
+            case 'history':
+                data = historyData;
+                break;
+            case 'favorite':
+                data = favoriteData;
+                break;
+            default:
+                data = onlineData;
+        }
+
+        data = data || [];
+
         return (
             <View style={styles.container}>
                 <TracksViewContainer
                     active={true}
                     hidden={false}
+                    data={data}
                     source={'online'}
                 />
 
@@ -69,3 +75,14 @@ const styles = StyleSheet.create({
         flex: 0.33
     }
 });
+
+const mapState = (state, props) => ({
+    ...props,
+
+    offlineData: state.offlineData,
+    historyData: state.historyData,
+    favoriteData: state.favoriteData,
+    onlineData: state.onlineData
+});
+
+export default connect(mapState)(PlayerView);
