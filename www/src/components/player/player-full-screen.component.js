@@ -8,6 +8,9 @@ import { TrackSlider } from '../../dumb-components/track-slider.component';
 import {
     PlayPauseButton
 } from '../../dumb-components/play-pause-button.component';
+import {
+    BlurTrackThumbnail
+} from '../../dumb-components/blur-track-thumbnail.component';
 
 const { width, height } = Dimensions.get('window');
 
@@ -94,11 +97,7 @@ export default class FullScreenPlayerComponent extends React.Component {
                             style={styles.previewAvatar}
                             width={width * 0.8}
                             height={height * 0.4}
-                            source={
-                                track.default
-                                    ? track.thumbnail
-                                    : { uri: track.thumbnail }
-                            }
+                            source={{ uri: track.thumbnail }}
                         />
 
                         <View style={styles.timeContainer}>

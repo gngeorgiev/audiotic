@@ -10,6 +10,7 @@ import PlayerView from './views/player-view/player.view';
 import FullScreenPlayerView
     from './views/full-screen-player-view/full-screen-player-view';
 import Header from './components/header/header.container';
+import Drawer from './views/drawer-view/drawer.view';
 
 const dev = !!__DEV__;
 
@@ -22,26 +23,24 @@ export default class App extends React.Component {
         return (
             <ThemeProvider>
                 <Provider store={store}>
-                    <Router
-                        duration={dev ? 0 : 300}
-                        navBar={Header}
-                        sceneStyle={{ marginTop: 56 }}
-                    >
-                        <Scene key="root">
-                            <Scene
-                                key="player"
-                                title="Music"
-                                searchable={true}
-                                component={PlayerView}
-                                source="online"
-                            />
-                            <Scene
-                                key="fullScreenPlayer"
-                                leftElement="arrow-back"
-                                transparent={true}
-                                onLeftElementPress={Actions.pop}
-                                component={FullScreenPlayerView}
-                            />
+                    <Router duration={dev ? 0 : 300} navBar={Header}>
+                        <Scene key="drawer" component={Drawer} open={false}>
+                            <Scene key="root" tabs={false}>
+                                <Scene
+                                    key="player"
+                                    title="Music"
+                                    searchable={true}
+                                    component={PlayerView}
+                                    source="online"
+                                />
+                                <Scene
+                                    key="fullScreenPlayer"
+                                    leftElement="arrow-back"
+                                    transparent={true}
+                                    onLeftElementPress={Actions.pop}
+                                    component={FullScreenPlayerView}
+                                />
+                            </Scene>
                         </Scene>
                     </Router>
                 </Provider>

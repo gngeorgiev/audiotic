@@ -84,12 +84,14 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.audiotic"
         minSdkVersion 16
         targetSdkVersion 22
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
         versionCode 1
         versionName "1.0"
         ndk {

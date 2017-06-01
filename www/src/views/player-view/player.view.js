@@ -31,6 +31,7 @@ class PlayerView extends React.Component {
 
         let data;
 
+        //TODO:
         switch (source) {
             case 'offline':
                 data = offlineData;
@@ -45,14 +46,12 @@ class PlayerView extends React.Component {
                 data = onlineData;
         }
 
-        data = data || [];
-
         return (
             <View style={styles.container}>
                 <TracksViewContainer
                     active={true}
                     hidden={false}
-                    data={data}
+                    data={data || []}
                     source={'online'}
                 />
 

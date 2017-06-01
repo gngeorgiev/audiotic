@@ -68,13 +68,13 @@ export const playNext = () => {
 
 export const download = track => {
     return async dispatch => {
-        const offlineTrack = await offlineTracksResolver.saveTrack(track);
-
-        return dispatch({
-            type: 'DOWNLOAD_TRACK',
-            track: offlineTrack,
-            isOffline: true
-        });
+        offlineTracksResolver.saveTrack(track).then(offlineTrack =>
+            dispatch({
+                type: 'DOWNLOAD_TRACK',
+                track: offlineTrack,
+                isOffline: true
+            })
+        );
     };
 };
 

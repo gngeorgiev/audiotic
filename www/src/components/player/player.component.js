@@ -7,6 +7,9 @@ import { TrackSlider } from '../../dumb-components/track-slider.component';
 import {
     PlayPauseButton
 } from '../../dumb-components/play-pause-button.component';
+import {
+    BlurTrackThumbnail
+} from '../../dumb-components/blur-track-thumbnail.component';
 
 export default class PlayerComponent extends React.Component {
     static propTypes = {
@@ -51,13 +54,48 @@ export default class PlayerComponent extends React.Component {
             : <TouchableHighlight
                   style={{
                       flex: 1,
-                      maxHeight: 100,
+                      maxHeight: 80,
                       backgroundColor: 'rgba(163, 163, 163, 0.5)'
                   }}
                   onPress={() => this.props.onPress()}
               >
 
-                  <View>
+                  <View style={{ flex: 1 }}>
+                      <BlurTrackThumbnail track={track} style={{ flex: 1 }}>
+                          <View style={{ flex: 1, flexDirection: 'row' }}>
+                              <View style={{ flex: 0.8, padding: 10 }}>
+                                  <View style={styles.playContainer}>
+                                      <Text
+                                          numberOfLines={1}
+                                          style={styles.currentTrack}
+                                      >
+                                          {track.title}
+                                      </Text>
+                                  </View>
+                                  <View style={styles.currentPlaylistContainer}>
+                                      <Text style={styles.currentPlaylist}>
+                                          <Text style={{ color: '#00BAC1' }}>
+                                              {secondsToTime(position)}
+                                          </Text>
+                                          {' / '}
+                                          <Text style={{ color: '#eee' }}>
+                                              {secondsToTime(track.length)}
+                                          </Text>
+                                      </Text>
+                                  </View>
+                              </View>
+                              <View style={styles.playButton}>
+                                  <PlayPauseButton
+                                      playing={playing}
+                                      onPress={() => onPlayPauseTap()}
+                                  />
+                              </View>
+                          </View>
+
+                      </BlurTrackThumbnail>
+                  </View>
+
+                  {/*<View>
                       <View style={styles.progressContainer}>
                           <TrackSlider
                               position={position}
@@ -69,7 +107,7 @@ export default class PlayerComponent extends React.Component {
                           <View style={styles.playTextContainer}>
                               <View style={styles.currentTrackContainer}>
                                   <Text
-                                      numberOfLines={2}
+                                      numberOfLines={1}
                                       style={styles.currentTrack}
                                   >
                                       {track.title}
@@ -94,7 +132,7 @@ export default class PlayerComponent extends React.Component {
                               />
                           </View>
                       </View>
-                  </View>
+                  </View>*/}
               </TouchableHighlight>;
     }
 }
@@ -126,8 +164,7 @@ const styles = {
         color: '#eee'
     },
     currentPlaylistContainer: {
-        flex: 0.5,
-        padding: 10
+        flex: 0.5
     },
     currentPlaylist: {
         fontSize: 20,
@@ -135,7 +172,6 @@ const styles = {
         color: '#fafafa'
     },
     playButton: {
-        width: 60,
-        height: 60
+        flex: 0.2
     }
 };
