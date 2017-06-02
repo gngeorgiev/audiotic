@@ -94,45 +94,6 @@ export default class PlayerComponent extends React.Component {
 
                       </BlurTrackThumbnail>
                   </View>
-
-                  {/*<View>
-                      <View style={styles.progressContainer}>
-                          <TrackSlider
-                              position={position}
-                              length={track.length}
-                              onSeek={position => onSeek(position)}
-                          />
-                      </View>
-                      <View style={styles.playContainer}>
-                          <View style={styles.playTextContainer}>
-                              <View style={styles.currentTrackContainer}>
-                                  <Text
-                                      numberOfLines={1}
-                                      style={styles.currentTrack}
-                                  >
-                                      {track.title}
-                                  </Text>
-                              </View>
-                              <View style={styles.currentPlaylistContainer}>
-                                  <Text style={styles.currentPlaylist}>
-                                      <Text style={{ color: '#00BAC1' }}>
-                                          {secondsToTime(position)}
-                                      </Text>
-                                      {' / '}
-                                      <Text style={{ color: '#eee' }}>
-                                          {secondsToTime(track.length)}
-                                      </Text>
-                                  </Text>
-                              </View>
-                          </View>
-                          <View style={styles.playButton}>
-                              <PlayPauseButton
-                                  playing={playing}
-                                  onPress={() => onPlayPauseTap()}
-                              />
-                          </View>
-                      </View>
-                  </View>*/}
               </TouchableHighlight>;
     }
 }

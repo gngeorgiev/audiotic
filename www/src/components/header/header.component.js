@@ -23,7 +23,6 @@ export default class Header extends React.Component {
             <View
                 style={{
                     height: 56,
-                    marginBottom: 56,
                     elevation: 4,
                     position: 'absolute',
                     top: 0,

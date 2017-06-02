@@ -1,6 +1,6 @@
 import defaultState from '../../defaultState';
 
-export const player = (state = defaultState.player, action) => {
+export const player = (state = {}, action) => {
     switch (action.type) {
         case 'PLAY_TRACK':
             return Object.assign({}, state, {
@@ -32,6 +32,18 @@ export const player = (state = defaultState.player, action) => {
             return Object.assign({}, state, {
                 track: action.track,
                 isFavorite: action.isFavorite
+            });
+        case 'HISTORY_TRACKS':
+            return Object.assign({}, state, {
+                historyData: state.tracks
+            });
+        case 'OFFLINE_TRACKS':
+            return Object.assign({}, state, {
+                offlineData: state.tracks
+            });
+        case 'FAVORITE_TRACKS':
+            return Object.assign({}, state, {
+                favoriteData: state.tracks
             });
         default:
             return state;

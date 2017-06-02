@@ -52,7 +52,7 @@ class PlayerView extends React.Component {
                     active={true}
                     hidden={false}
                     data={data || []}
-                    source={'online'}
+                    source={source}
                 />
 
                 <Player />

@@ -32,17 +32,22 @@ export const toggleTrackLoading = loadingId => {
 export const play = track => {
     return async dispatch => {
         toggleLoadingTrack(track.id, () => audioPlayer.play(track))(dispatch);
-        historyTracksManager.addTrack(track);
 
         const isOffline = await trackResolver.isOffline(track);
         const isFavorite = await trackResolver.isFavorite(track);
 
-        return dispatch({
+        dispatch({
             type: 'PLAY_TRACK',
             playing: true,
             track,
             isOffline,
             isFavorite
+        });
+
+        await historyTracksManager.addTrack(track);
+        dispatch({
+            type: 'HISTORY_TRACKS',
+            tracks: await historyTracksManager.data()
         });
     };
 };
@@ -51,6 +56,9 @@ export const playNext = () => {
     return async (dispatch, getState) => {
         const { player } = getState();
         const { track } = player;
+        if (track.default) {
+            return;
+        }
 
         if (!track.related.length) {
             track.next = track;
@@ -68,36 +76,60 @@ export const playNext = () => {
 
 export const download = track => {
     return async dispatch => {
-        offlineTracksResolver.saveTrack(track).then(offlineTrack =>
+        if (track.default) {
+            return;
+        }
+
+        offlineTracksResolver.saveTrack(track).then(async offlineTrack => {
             dispatch({
                 type: 'DOWNLOAD_TRACK',
                 track: offlineTrack,
                 isOffline: true
-            })
-        );
+            });
+
+            dispatch({
+                type: 'OFFLINE_TRACKS',
+                tracks: await offlineTracksManager.data()
+            });
+        });
     };
 };
 
 export const favorite = track => {
     return async dispatch => {
+        if (track.default) {
+            return;
+        }
+
+        const updateOfflineTracks = async () => {
+            dispatch({
+                type: 'FAVORITE_TRACKS',
+                tracks: await favoriteTracksManager.data()
+            });
+        };
+
         const isFavorite = await trackResolver.isFavorite(track);
         if (isFavorite) {
             await favoriteTracksManager.removeTrack(track);
 
-            return dispatch({
+            dispatch({
                 type: 'FAVORITE_TRACK',
                 isFavorite: false,
                 track
             });
+
+            updateOfflineTracks();
         }
 
         await favoriteTracksManager.addTrack(track);
 
-        return dispatch({
+        dispatch({
             type: 'FAVORITE_TRACK',
             isFavorite: true,
             track
         });
+
+        updateOfflineTracks();
     };
 };
 
@@ -105,6 +137,9 @@ export const playPrev = () => {
     return (dispatch, getState) => {
         const { player } = getState();
         const { track } = player;
+        if (track.default) {
+            return;
+        }
 
         return dispatch(play(track.previous || track));
     };
@@ -121,7 +156,12 @@ export const pause = () => {
 };
 
 export const resume = () => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const { track } = getState().player;
+        if (track.default) {
+            return;
+        }
+
         await audioPlayer.resume();
         return dispatch({
             type: 'RESUME_TRACK',
@@ -132,6 +172,11 @@ export const resume = () => {
 
 export const seek = position => {
     return async dispatch => {
+        const { track } = getState().player;
+        if (track.default) {
+            return;
+        }
+
         await audioPlayer.seek(position);
         return dispatch({
             type: 'SEEK_TRACK',
