@@ -171,7 +171,7 @@ export const resume = () => {
 };
 
 export const seek = position => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
         const { track } = getState().player;
         if (track.default) {
             return;

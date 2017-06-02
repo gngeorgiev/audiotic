@@ -10,7 +10,7 @@ import PlayerView from './views/player-view/player.view';
 import FullScreenPlayerView
     from './views/full-screen-player-view/full-screen-player-view';
 import Header from './components/header/header.container';
-import Drawer from './views/drawer-view/drawer.view';
+import Drawer from './views/player-view/player-view-drawer.js';
 
 export default class App extends React.Component {
     state = { store: null };

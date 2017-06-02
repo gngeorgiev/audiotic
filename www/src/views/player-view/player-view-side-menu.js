@@ -1,11 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { View, Text, TouchableHighlight, ScrollView } from 'react-native';
-import Drawer from 'react-native-drawer';
-import { Actions, DefaultRenderer } from 'react-native-router-flux';
+import { View, Text } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { ListItem, Divider, Card, Badge } from 'react-native-elements';
 
-class SideMenuComponent extends React.Component {
+export default class SideMenuComponent extends React.Component {
     drawerItems = [
         {
             text: 'Home',
@@ -93,48 +91,3 @@ class SideMenuComponent extends React.Component {
         );
     }
 }
-
-class DrawerView extends React.Component {
-    render() {
-        const state = this.props.navigationState;
-        const children = state.children;
-        const { offlineData, favoriteData, historyData } = this.props;
-        return (
-            <Drawer
-                ref="navigation"
-                open={state.open}
-                onOpen={() => Actions.refresh({ key: state.key, open: true })}
-                onClose={() => Actions.refresh({ key: state.key, open: false })}
-                type="displace"
-                content={
-                    <View style={{ backgroundColor: 'white', flex: 1 }}>
-                        <ScrollView>
-                            <SideMenuComponent
-                                offlineData={offlineData}
-                                favoriteData={favoriteData}
-                                historyData={historyData}
-                                navigation={this.refs.navigation}
-                            />
-                        </ScrollView>
-                    </View>
-                }
-                tapToClose={true}
-                elevation={1}
-                openDrawerOffset={0.2}
-                negotiatePan={true}
-                sceneStyle={{ marginTop: 56 }}
-            >
-                <DefaultRenderer
-                    navigationState={children[0]}
-                    onNavigate={this.props.onNavigate}
-                />
-            </Drawer>
-        );
-    }
-}
-
-export default connect(state => ({
-    historyData: state.historyData,
-    favoriteData: state.favoriteData,
-    offlineData: state.offlineData
-}))(DrawerView);
