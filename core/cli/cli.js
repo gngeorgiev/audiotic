@@ -71,7 +71,7 @@ if (!argv._.length) {
                 resolved.map(async r => {
                     await download(r.url, {
                         directory: downloadPath,
-                        filename: r.title
+                        filename: `${r.title}.${r.stream.container}`
                     });
 
                     console.log(`Downloaded: ${r.title} at ${downloadPath}`);
