@@ -1,4 +1,5 @@
-const resolvers = require('./resolvers/index');
+const libResolvers = require('./resolvers');
+const parseUrl = require('./lib/parseUrl');
 
 //I don't like it either, but this is the only good way to have
 //cross platform code
@@ -12,20 +13,20 @@ function extendGlobalScope(globals) {
 }
 
 function createLib(platformSettings) {
-    const audiotic = {
-        resolvers: {}
-    };
-
+    const resolvers = {};
     const registerCustomResolver = resolver => {
         audiotic[resolver.name] = resolver;
     };
 
-    audiotic.registerCustomResolver = registerCustomResolver;
-
-    Object.keys(resolvers).forEach(
-        r => (audiotic.resolvers[r] = new resolvers[r](platformSettings))
+    Object.keys(libResolvers).forEach(
+        r => (resolvers[r] = new libResolvers[r](platformSettings))
     );
-    return audiotic;
+
+    return {
+        resolvers,
+        registerCustomResolver,
+        parseUrl
+    };
 }
 
 module.exports = function(globals, platformSettings = {}) {
