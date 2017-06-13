@@ -27,6 +27,9 @@ if (!argv._.length) {
 
 (async function() {
     const urls = argv._;
+
+    console.log(`Processing ${urls.length} urls`);
+
     let resolved;
 
     try {
@@ -63,6 +66,7 @@ if (!argv._.length) {
     if (argv.output) {
         try {
             const downloadPath = path.resolve(process.cwd(), argv.output);
+            let counter = 0;
             await Promise.all(
                 resolved.map(async r => {
                     await download(r.url, {
@@ -71,8 +75,11 @@ if (!argv._.length) {
                     });
 
                     console.log(`Downloaded: ${r.title} at ${downloadPath}`);
+                    counter++;
                 })
             );
+
+            console.log(`Downloaded ${counter} tracks`);
         } catch (e) {
             console.error(`Error while downloading some tracks: ${e}`);
         }
