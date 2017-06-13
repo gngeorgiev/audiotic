@@ -23,11 +23,7 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new AudioPlayerPackage(),
-          new MainReactPackage(),
-            new RNFSPackage()
-      );
+      return Arrays.<ReactPackage>asList(new AudioPlayerPackage(), new MainReactPackage(), new RNFSPackage());
     }
   };
 
@@ -35,7 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
   }
-  
+
   @Override
   public void onCreate() {
     super.onCreate();

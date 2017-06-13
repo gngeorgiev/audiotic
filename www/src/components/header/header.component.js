@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
+import { Actions, DefaultRenderer } from 'react-native-router-flux';
 
 export default class Header extends React.Component {
     state = { text: '' };
@@ -10,7 +11,8 @@ export default class Header extends React.Component {
             title,
             searchable,
             leftElement = 'menu',
-            onLeftElementPress = () => {},
+            onLeftElementPress = () =>
+                Actions.refresh({ key: 'drawer', open: value => !value }),
             transparent,
             search
         } = this.props;
@@ -21,7 +23,6 @@ export default class Header extends React.Component {
             <View
                 style={{
                     height: 56,
-                    marginBottom: 56,
                     elevation: 4,
                     position: 'absolute',
                     top: 0,

@@ -4,5 +4,9 @@ import thunk from 'redux-thunk';
 import { reducers } from './reducers';
 import defaultState from './defaultState';
 
-const store = createStore(reducers, defaultState, applyMiddleware(thunk));
-export default store;
+export default async () => {
+    const state = await defaultState();
+    const store = createStore(reducers, state, applyMiddleware(thunk));
+    console.log(store);
+    return store;
+};
