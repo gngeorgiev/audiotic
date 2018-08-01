@@ -7,4 +7,4 @@ const audiotic = require('./core/audiotic-node');
     } catch (ex) {
         console.error(ex);
     }
-}());
+}())
